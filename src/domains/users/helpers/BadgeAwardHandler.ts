@@ -30,7 +30,7 @@ export const CAMPAIGN_BADGE_RULES = [
     { counter: 'equipBoughtAmount', amount: 90, badge: 'imp_king_rich' },
 ] as const;
 export const CHARACTER_BADGE_RULES = [] as const;
-export const NEWBIE_BADGE = null;
+export const NEWBIE_BADGE = 'newbie';
 export const DONATION_BADGE_RULES = [
     { counter: 'donateAmount', amount: 10, badge: 'donate_normal' },
     { counter: 'donateAmount', amount: 50, badge: 'donate_rare' },
@@ -40,11 +40,6 @@ export const FRIEND_BADGE_RULES = [
     { counter: 'playersAdded', amount: 5, badge: 'friends' },
     { counter: 'playersAdded', amount: 15, badge: 'friends_rare' },
     { counter: 'playersAdded', amount: 35, badge: 'friends_super_rare' },
-] as const;
-export const BADGE_RANK_RULES = [
-    { badgesAmount: 20, rank: 'white' },
-    { badgesAmount: 15, rank: 'gold' },
-    { badgesAmount: 10, rank: 'diamond' },
 ] as const;
 
 function addBadge(userDetails: UserDetail, badge: string): UserDetail {
@@ -70,20 +65,11 @@ function awardBadgesByRules(userDetails: UserDetail, rules: readonly CounterBadg
         }
     }
 
-    return syncRankByBadgesLength(userDetails);
-}
-
-export function syncRankByBadgesLength(userDetails: UserDetail): UserDetail {
-    const badgesLength = userDetails.gameInfo?.badges?.length ?? 0;
-    const matchedRule = BADGE_RANK_RULES.find((rule) => badgesLength >= rule.badgesAmount);
-
-    userDetails.rank = matchedRule?.rank ?? 'bronze';
-
     return userDetails;
 }
 
 export function awardNewbieBadge(userDetails: UserDetail): UserDetail {
-    return userDetails;
+    return addBadge(userDetails, NEWBIE_BADGE);
 }
 
 export function awardCampaignBadges(userDetails: UserDetail): UserDetail {

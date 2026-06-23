@@ -171,5 +171,16 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersSch
                 })
             ).to.not.throw();
         });
+
+        it('should validate update payloads containing character status', () => {
+            const schemas = CharactersSchemas();
+
+            expect(() =>
+                schemas.putUpdateCharacter.body.parse({
+                    data: {},
+                    status: 'dead',
+                })
+            ).to.not.throw();
+        });
     });
 });

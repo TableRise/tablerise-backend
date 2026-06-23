@@ -17,6 +17,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             createUserOperation: { execute: sinon.stub() },
             updateUserOperation: { execute: sinon.stub().returns({ password: 'secret', nickname: 'nick' }) },
             updateUserDetailsOperation: { execute: sinon.stub().returns({ firstName: 'Joe' }) },
+            updateUserXpOperation: { execute: sinon.stub().returns({ xp: 500, level: 2 }) },
             verifyEmailOperation: { execute: sinon.stub() },
             getUsersOperation: { execute: sinon.stub().returns([]) },
             getUserByIdOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
@@ -57,6 +58,42 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ firstName: 'Joe' });
+    });
+
+    it('should update user xp', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.updateUserXp(
+            { params: { id: '123' }, user: { userId: '123' }, query: { xp: '500' } } as any,
+            response
+        );
+
+        expect((controller as any).updateUserXpOperation.execute).to.have.been.calledWith({ userId: '123', xp: '500' });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+        expect(response.json).to.have.been.calledWith({ xp: 500, level: 2 });
+    });
+
+    it('should reject user xp updates for a different authenticated user', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        let thrownError;
+
+        try {
+            await controller.updateUserXp(
+                { params: { id: '123' }, user: { userId: '456' }, query: { xp: '500' } } as any,
+                response
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        const err = thrownError as HttpRequestErrors;
+        expect(err.message).to.equal('Unauthorized');
+        expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        expect((controller as any).updateUserXpOperation.execute).to.not.have.been.called();
+        expect(response.status).to.not.have.been.called();
     });
 
     it('should return the 2FA activation payload', async () => {

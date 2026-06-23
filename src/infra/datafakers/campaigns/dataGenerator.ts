@@ -58,6 +58,8 @@ export default {
     configurations: {
         xpSystem: faker.datatype.boolean(),
         shopSystem: faker.datatype.boolean(),
+        shopOn: faker.datatype.boolean(),
+        playOn: faker.datatype.boolean(),
     },
     buys: [],
     password: '1234',

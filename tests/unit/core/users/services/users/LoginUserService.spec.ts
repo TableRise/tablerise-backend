@@ -21,6 +21,7 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
 
                 usersDetailsRepository = {
                     findOne: () => userDetails,
+                    update: () => userDetails,
                 };
 
                 loginUserService = new LoginUserService({
@@ -40,11 +41,13 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(enrichedToken.picture?.link).to.be.equal(user.picture?.link);
                 expect(enrichedToken.picture?.uploadDate).to.be.equal(user.picture?.uploadDate);
                 expect(enrichedToken.fullname).to.be.equal(`${userDetails.firstName} ${userDetails.lastName}`);
+                expect(userDetails.xp).to.equal(30);
             });
 
             it('should throw when the user detail does not exist', async () => {
                 usersDetailsRepository = {
                     findOne: () => null,
+                    update: () => null,
                 };
 
                 loginUserService = new LoginUserService({

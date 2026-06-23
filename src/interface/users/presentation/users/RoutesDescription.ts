@@ -42,6 +42,8 @@ const updateEmail = 'Change the user email address. A verification flow is requi
 const updatePassword = 'Reset the user password using the email verification flow and any enabled extra checks.';
 
 const updateCampaignNotes = 'Add a note to one campaign inside the user game info.';
+const updateUserXp =
+    'Add system-managed XP to the authenticated user and recalculate progression using the provided self route.';
 const acceptFriendRequest = 'Accept or decline a pending friend request for the authenticated user.';
 const removeFriend = 'Remove a friend entry or pending request for the authenticated user.';
 const toggleFavoriteFriend = 'Toggle the favorite flag for one active friend of the authenticated user.';
@@ -90,6 +92,7 @@ export default {
     updateEmail,
     updatePassword,
     updateCampaignNotes,
+    updateUserXp,
     acceptFriendRequest,
     removeFriend,
     toggleFavoriteFriend,

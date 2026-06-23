@@ -31,6 +31,9 @@ describe('When a journal post is published', () => {
     });
 
     it('should add the new post to the campaign journal', async () => {
+        const { body: userBeforePost } = await requester()
+            .get(`/users/${authenticatedUserId}`)
+            .expect(HttpStatusCode.OK);
         const payload = {
             title: 'New character will be added',
             content: 'In next match we will have a new char',
@@ -50,5 +53,10 @@ describe('When a journal post is published', () => {
         });
         expect(body.infos.journal[0].author.userId).to.be.equal(authenticatedUserId);
         expect(body.infos.journal[0].postId).to.be.a('string');
+
+        const { body: userAfterPost } = await requester()
+            .get(`/users/${authenticatedUserId}`)
+            .expect(HttpStatusCode.OK);
+        expect(userAfterPost.details.xp).to.equal(userBeforePost.details.xp + 20);
     });
 });

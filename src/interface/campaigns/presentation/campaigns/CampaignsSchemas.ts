@@ -70,12 +70,14 @@ const postConfirmPlayerPresenceQuerySchema = z.object({
 });
 
 const configurationsBodySchema = z.object({
-    shopOn: z.boolean(),
+    shopOn: z.boolean().optional(),
+    playOn: z.boolean().optional(),
 });
 
 const putUpdateCampaignBodySchema = z.object({
     title: z.string().optional(),
     description: z.string().max(255).optional(),
+    mainHistory: z.string().optional(),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     ageRestriction: z.enum(['L', '10', '14', '16', '+18']).optional(),
     nextMatchDate: z.string().optional(),

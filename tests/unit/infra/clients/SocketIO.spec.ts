@@ -482,4 +482,129 @@ describe('Infra :: Clients :: SocketIO', () => {
         expect(createAdapter).to.have.been.calledWith(redisClient, redisSubscriber);
         expect(adapter).to.have.been.calledWith(adapterInstance);
     });
+
+    it('should reset music time when selecting a new match music', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.musics = [{ id: 'music-1', title: 'Song', thumbnail: 'thumb' }] as any;
+        const socketIO = new SocketIO({
+            campaignsRepository: buildCampaignRepository(campaign),
+            tokenForbidden,
+            redisClient: null,
+            logger,
+        } as any);
+
+        const updatedCampaign = (socketIO as any).applyMatchMusicSelection(
+            (await (socketIO as any).getActiveCampaign(campaign.campaignId)) as any,
+            {
+                campaignId: campaign.campaignId,
+                playingMusicId: 'music-1',
+            },
+            '2026-06-20T12:00:00.000Z'
+        );
+
+        expect(updatedCampaign.matchData.state.playingMusicId).to.equal('music-1');
+        expect(updatedCampaign.matchData.state.playingMusicTimeSeconds).to.equal(0);
+        expect(updatedCampaign.matchData.state.musicPlayback).to.deep.equal({
+            anchorTimeSeconds: 0,
+            anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+            isPlaying: true,
+        });
+    });
+
+    it('should persist match music time updates through realtime state flushes', async () => {
+        const clock = sinon.useFakeTimers();
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.campaignPlayers = [
+            {
+                userId: 'user-1',
+                characterIds: [],
+                role: 'dungeon_master',
+                status: 'active',
+            },
+        ];
+        campaign.musics = [{ id: 'music-1', title: 'Song', thumbnail: 'thumb' }] as any;
+        const campaignsRepository = buildCampaignRepository(campaign);
+        const socketIO = new SocketIO({
+            campaignsRepository,
+            tokenForbidden,
+            redisClient: null,
+            logger,
+        } as any);
+        const socket = {
+            data: {
+                campaignId: campaign.campaignId,
+                user: {
+                    userId: 'user-1',
+                },
+                role: 'dungeon_master',
+            },
+        } as any;
+
+        try {
+            await (socketIO as any).requireDungeonMasterMutation(
+                socket,
+                campaign.campaignId,
+                (activeCampaign: any) =>
+                    (socketIO as any).applyMatchMusicTimeUpdate(
+                        activeCampaign,
+                        {
+                            campaignId: campaign.campaignId,
+                            playingMusicId: 'music-1',
+                            currentTimeSeconds: 87,
+                        },
+                        '2026-06-20T12:00:00.000Z'
+                    ),
+                { matchStateFields: ['playingMusicId', 'playingMusicTimeSeconds', 'musicPlayback'] }
+            );
+
+            expect(campaignsRepository.updateRealtimeState).not.to.have.been.called();
+
+            await clock.tickAsync(500);
+
+            expect(campaignsRepository.updateRealtimeState).to.have.been.calledOnce;
+            expect(campaignsRepository.updateRealtimeState.firstCall.args[1].matchStateFields).to.deep.include({
+                playingMusicId: 'music-1',
+                playingMusicTimeSeconds: 87,
+            });
+            expect(
+                campaignsRepository.updateRealtimeState.firstCall.args[1].matchStateFields.musicPlayback
+            ).to.deep.equal({
+                anchorTimeSeconds: 87,
+                anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+                isPlaying: true,
+            });
+        } finally {
+            clock.restore();
+        }
+    });
+
+    it('should reject negative match music time updates', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.musics = [{ id: 'music-1', title: 'Song', thumbnail: 'thumb' }] as any;
+        const socketIO = new SocketIO({
+            campaignsRepository: buildCampaignRepository(campaign),
+            tokenForbidden,
+            redisClient: null,
+            logger,
+        } as any);
+
+        let thrownError: any;
+
+        try {
+            (socketIO as any).applyMatchMusicTimeUpdate(
+                (await (socketIO as any).getActiveCampaign(campaign.campaignId)) as any,
+                {
+                    campaignId: campaign.campaignId,
+                    playingMusicId: 'music-1',
+                    currentTimeSeconds: -1,
+                },
+                '2026-06-20T12:00:00.000Z'
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(Error);
+        expect(thrownError.message).to.equal('Current time seconds must be a non-negative number');
+    });
 });

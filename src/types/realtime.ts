@@ -23,11 +23,19 @@ export interface MatchToken {
     updatedAt: string;
 }
 
+export interface MusicPlaybackState {
+    anchorTimeSeconds: number;
+    anchorUpdatedAt: string;
+    isPlaying: boolean;
+}
+
 export interface MatchState {
     activeMapId: string | null;
     gridVisible: boolean;
     activeEffect: MatchEffect;
     playingMusicId: string | null;
+    playingMusicTimeSeconds: number;
+    musicPlayback: MusicPlaybackState | null;
     visibleCharacterIds: string[];
     tokens: MatchToken[];
 }
@@ -69,6 +77,8 @@ export interface CampaignSyncPayload {
         gridVisible: boolean;
         activeEffect: MatchEffect;
         playingMusicId: string | null;
+        playingMusicTimeSeconds: number;
+        musicPlayback?: MusicPlaybackState | null;
         visibleCharacterIds: string[];
         tokens: MatchToken[];
         images: ImageObject[];

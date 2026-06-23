@@ -44,6 +44,8 @@ describe('When a campaign is created', function () {
                         'gameInfo.campaigns': Array.from({ length: 9 }, () => newUUID()),
                         'gameInfo.badges': [],
                         'gameInfo.campaignsCreatedAmount': 1,
+                        xp: 0,
+                        level: 1,
                     },
                 }
             );
@@ -98,6 +100,7 @@ describe('When a campaign is created', function () {
             const authenticatedUserUpdated = await userDetailsCollection.findOne({ userDetailId: userLoggedDetailsId });
             expect(authenticatedUserUpdated.gameInfo.campaignsCreatedAmount).to.equal(2);
             expect(authenticatedUserUpdated.gameInfo.badges).to.include('cleric');
+            expect(authenticatedUserUpdated.xp).to.equal(700);
         });
     });
 });

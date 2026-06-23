@@ -31,8 +31,10 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 };
 
                 campaignUpdatePayload = {
+                    campaignId: campaign.campaignId,
                     title: 'New title',
                     description: 'New description text',
+                    mainHistory: 'The realm changed forever.',
                     visibility: 'hidden',
                 };
 
@@ -47,6 +49,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 const campaignUpdateTest = await updateCampaignService.update(campaignUpdatePayload);
                 expect(campaignUpdateTest.title).to.be.equal(campaignUpdatePayload.title);
                 expect(campaignUpdateTest.description).to.be.equal(campaignUpdatePayload.description);
+                expect(campaignUpdateTest.mainHistory).to.be.equal(campaignUpdatePayload.mainHistory);
                 expect(campaignUpdateTest.infos.visibility).to.be.equal(campaignUpdatePayload.visibility);
             });
         });
@@ -62,6 +65,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 imageStorageClient = {};
 
                 campaignUpdatePayload = {
+                    campaignId: campaign.campaignId,
                     title: 'New title',
                     description: 'New description text',
                     visibility: 'hidden',
@@ -115,7 +119,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
         it('should merge social media, configurations and next session resume', async () => {
             campaign = DomainDataFaker.generateCampaignsJSON()[0];
             campaign.infos.socialMedia = { instagram: 'old' } as any;
-            campaign.configurations = { xpSystem: false, shopSystem: false, shopOn: false } as any;
+            campaign.configurations = { xpSystem: false, shopSystem: false, shopOn: false, playOn: false } as any;
             campaign.matchData.nextSessionResume = 'Old resume' as any;
 
             campaignsRepository = {
@@ -131,7 +135,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 campaignId: campaign.campaignId,
                 nextSessionResume: 'New resume',
                 socialMedia: { youtube: 'new-channel' } as any,
-                configurations: { shopSystem: true } as any,
+                configurations: { shopSystem: true, playOn: true } as any,
             });
 
             expect(updated.matchData.nextSessionResume).to.equal('New resume');
@@ -143,7 +147,29 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 xpSystem: false,
                 shopSystem: true,
                 shopOn: false,
+                playOn: true,
             });
+        });
+
+        it('should update the campaign main history when provided', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.mainHistory = 'Old history';
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateCampaignService = new UpdateCampaignService({
+                campaignsRepository,
+                logger,
+            } as any);
+
+            const updated = await updateCampaignService.update({
+                campaignId: campaign.campaignId,
+                mainHistory: 'The new campaign history',
+            });
+
+            expect(updated.mainHistory).to.equal('The new campaign history');
         });
 
         it('should update age restriction, next match date and player limit when provided', async () => {
@@ -209,9 +235,19 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
             campaignsRepository = {
                 findOne: () => campaign,
             };
+            const promotedUserDetails = {
+                userDetailId: 'player-detail',
+                userId: 'player-id',
+                xp: 0,
+            };
+            const usersDetailsRepository = {
+                findOne: sinon.stub().resolves(promotedUserDetails),
+                update: sinon.stub().callsFake(async ({ payload }) => payload),
+            };
 
             updateCampaignService = new UpdateCampaignService({
                 campaignsRepository,
+                usersDetailsRepository,
                 logger,
             } as any);
 
@@ -223,6 +259,44 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
             expect(updated.campaignPlayers[1].role).to.equal('player');
             expect(updated.campaignPlayers[2].role).to.equal('admin_player');
             expect(updated.infos.socialMedia).to.deep.equal({});
+            expect(updated.infos.adminXpGrantedUserIds).to.deep.equal(['player-id']);
+            expect(promotedUserDetails.xp).to.equal(150);
+        });
+
+        it('should not re-award admin xp for the same campaign and user pair', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.campaignPlayers = [
+                { userId: 'dm-id', role: 'dungeon_master', status: 'active', characterIds: [] },
+                { userId: 'player-id', role: 'player', status: 'active', characterIds: [] },
+            ] as any;
+            campaign.infos.adminXpGrantedUserIds = ['player-id'];
+
+            const promotedUserDetails = {
+                userDetailId: 'player-detail',
+                userId: 'player-id',
+                xp: 0,
+            };
+            const usersDetailsRepository = {
+                findOne: sinon.stub().resolves(promotedUserDetails),
+                update: sinon.stub().callsFake(async ({ payload }) => payload),
+            };
+
+            updateCampaignService = new UpdateCampaignService({
+                campaignsRepository: {
+                    findOne: () => campaign,
+                },
+                usersDetailsRepository,
+                logger,
+            } as any);
+
+            const updated = await updateCampaignService.update({
+                campaignId: campaign.campaignId,
+                adminId: 'player-id',
+            } as any);
+
+            expect(updated.campaignPlayers[1].role).to.equal('admin_player');
+            expect(promotedUserDetails.xp).to.equal(0);
+            expect(usersDetailsRepository.update).to.not.have.been.called();
         });
     });
 

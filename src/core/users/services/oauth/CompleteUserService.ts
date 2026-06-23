@@ -40,6 +40,7 @@ export default class CompleteUserService {
         userDetails.firstName = payload.firstName;
         userDetails.lastName = payload.lastName;
         userDetails.birthday = payload.birthday;
+        if (payload.gender !== undefined) (userDetails as any).gender = payload.gender;
         ensureGameInfoCounters(userDetails);
 
         return { user, userDetails };

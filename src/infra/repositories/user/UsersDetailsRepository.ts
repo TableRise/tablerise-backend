@@ -63,6 +63,12 @@ export default class UsersDetailsRepository {
         if (typeof gameInfo.playersAdded === 'number') {
             rawGameInfoFields['gameInfo.playersAdded'] = gameInfo.playersAdded;
         }
+        if (typeof gameInfo.userRegistered === 'number') {
+            rawGameInfoFields['gameInfo.userRegistered'] = gameInfo.userRegistered;
+        }
+        if (typeof gameInfo.userLevelAmount === 'number') {
+            rawGameInfoFields['gameInfo.userLevelAmount'] = gameInfo.userLevelAmount;
+        }
         if (!Object.keys(rawGameInfoFields).length) return;
 
         await rawCollection.updateOne(query, {

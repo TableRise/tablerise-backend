@@ -49,12 +49,14 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 const userPayload = {
                     ...user,
                     details: userDetails,
+                    gender: 'female',
                 };
 
                 const { userSerialized, userDetailsSerialized } = await createUserService.serialize(userPayload);
 
                 expect(userSerialized.userId).to.be.equal(user.userId);
                 expect(userDetailsSerialized.firstName).to.be.equal(userDetails.firstName);
+                expect(userDetailsSerialized).to.have.property('gender');
             });
         });
 
@@ -94,6 +96,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     const userPayload = {
                         ...user,
                         details: userDetails,
+                        gender: 'female',
                     };
 
                     await createUserService.serialize(userPayload);
@@ -156,8 +159,13 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 expect(userEnriched.updatedAt).to.be.not.null();
                 expect(userEnriched.password).to.be.not.equal('testepwd@');
                 expect(userEnriched.twoFactorSecret.active).to.be.equal(false);
-                expect(userDetailsEnriched.gameInfo.badges).to.deep.equal([]);
+                expect(userDetailsEnriched.gameInfo.badges).to.deep.equal(['newbie']);
+                expect(userDetailsEnriched.gameInfo.userRegistered).to.equal(1);
+                expect(userDetailsEnriched.gameInfo.userLevelAmount).to.equal(0);
+                expect(userDetailsEnriched.xp).to.equal(0);
+                expect(userDetailsEnriched.level).to.equal(1);
                 expect(userDetailsEnriched.rank).to.equal('bronze');
+                expect(userDetailsEnriched).to.have.property('gender');
             });
         });
 

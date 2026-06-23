@@ -5,6 +5,7 @@ export const oAuthCompleteZodSchema = z.object({
     firstName: z.string().max(16),
     lastName: z.string().max(80),
     birthday: z.string(),
+    gender: z.string().max(32).optional(),
 });
 
 export type CompleteOAuthPayload = z.infer<typeof oAuthCompleteZodSchema>;

@@ -10,10 +10,13 @@ import {
     ensureBaseTokens,
     hydrateRealtimeCampaign,
     normalizeRealtimeMatchData,
+    resolvePlayingMusicTimeSeconds as resolveEffectivePlayingMusicTimeSeconds,
     syncLegacyMapSelection,
 } from 'src/domains/campaigns/helpers/RealtimeCampaignState';
 import { isAllowedCorsOrigin } from 'src/domains/common/helpers/corsOrigins';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { MatchToken, RealtimeCampaign, SocketAck } from 'src/types/realtime';
 
@@ -40,6 +43,18 @@ interface TokenUpdatePayload {
     xPct: number;
     yPct: number;
     widthPct: number;
+}
+
+interface MatchSetMusicPayload {
+    campaignId: string;
+    playingMusicId: string | null;
+    currentTimeSeconds?: number;
+}
+
+interface MatchSetMusicTimePayload {
+    campaignId: string;
+    playingMusicId: string | null;
+    currentTimeSeconds: number;
 }
 
 type MatchStateField = Exclude<keyof RealtimeCampaign['matchData']['state'], 'tokens'>;
@@ -257,26 +272,48 @@ export default class SocketIO {
             authenticatedSocket.on('match:set_music', (payload, ack) => {
                 this.trackEvent('match:set_music');
                 void this.runWithAck(authenticatedSocket, ack, async () => {
-                    await this.requireDungeonMasterMutation(
+                    const updatedAt = new Date().toISOString();
+                    const updatedCampaign = await this.requireDungeonMasterMutation(
                         authenticatedSocket,
                         payload.campaignId,
-                        (campaign) => {
-                            if (payload.playingMusicId !== null) {
-                                const musicExists = campaign.musics.some(
-                                    (music) => music.id === payload.playingMusicId
-                                );
-                                if (!musicExists) HttpRequestErrors.throwError('content-inexistent');
-                            }
-
-                            campaign.matchData.state.playingMusicId = payload.playingMusicId;
-                            return campaign;
-                        },
-                        { matchStateFields: ['playingMusicId'] }
+                        (campaign) =>
+                            this.applyMatchMusicSelection(campaign, payload as MatchSetMusicPayload, updatedAt),
+                        { matchStateFields: ['playingMusicId', 'playingMusicTimeSeconds', 'musicPlayback'] }
                     );
 
                     this.emitToCampaign(payload.campaignId, 'match:music_changed', {
                         campaignId: payload.campaignId,
-                        playingMusicId: payload.playingMusicId,
+                        playingMusicId: updatedCampaign.matchData.state.playingMusicId,
+                        playingMusicTimeSeconds: resolveEffectivePlayingMusicTimeSeconds(
+                            updatedCampaign.matchData.state,
+                            new Date(updatedAt)
+                        ),
+                    });
+                });
+            });
+
+            authenticatedSocket.on('match:set_music_time', (payload, ack) => {
+                this.trackEvent('match:set_music_time');
+                void this.runWithAck(authenticatedSocket, ack, async () => {
+                    const updatedAt = new Date().toISOString();
+                    const updatedBy = authenticatedSocket.data.user?.userId as string;
+                    const updatedCampaign = await this.requireDungeonMasterMutation(
+                        authenticatedSocket,
+                        payload.campaignId,
+                        (campaign) =>
+                            this.applyMatchMusicTimeUpdate(campaign, payload as MatchSetMusicTimePayload, updatedAt),
+                        { matchStateFields: ['playingMusicId', 'playingMusicTimeSeconds', 'musicPlayback'] }
+                    );
+
+                    this.emitToCampaign(payload.campaignId, 'match:music_time_changed', {
+                        campaignId: payload.campaignId,
+                        playingMusicId: updatedCampaign.matchData.state.playingMusicId,
+                        currentTimeSeconds: resolveEffectivePlayingMusicTimeSeconds(
+                            updatedCampaign.matchData.state,
+                            new Date(updatedAt)
+                        ),
+                        updatedBy,
+                        updatedAt,
                     });
                 });
             });
@@ -655,6 +692,78 @@ export default class SocketIO {
         if (socket.data.campaignId !== campaignId) {
             HttpRequestErrors.throwError('unauthorized');
         }
+    }
+
+    private applyMatchMusicSelection(
+        campaign: RealtimeCampaign,
+        payload: MatchSetMusicPayload,
+        updatedAt: string
+    ): RealtimeCampaign {
+        if (payload.playingMusicId !== null) {
+            this.assertCampaignMusicExists(campaign, payload.playingMusicId);
+        }
+
+        campaign.matchData.state.playingMusicId = payload.playingMusicId;
+        if (payload.playingMusicId === null) {
+            campaign.matchData.state.playingMusicTimeSeconds = 0;
+            campaign.matchData.state.musicPlayback = null;
+            return campaign;
+        }
+
+        const anchorTimeSeconds = this.normalizeRequestedPlayingMusicTimeSeconds(payload.currentTimeSeconds, 0);
+        campaign.matchData.state.playingMusicTimeSeconds = anchorTimeSeconds;
+        campaign.matchData.state.musicPlayback = {
+            anchorTimeSeconds,
+            anchorUpdatedAt: updatedAt,
+            isPlaying: true,
+        };
+
+        return campaign;
+    }
+
+    private applyMatchMusicTimeUpdate(
+        campaign: RealtimeCampaign,
+        payload: MatchSetMusicTimePayload,
+        updatedAt: string
+    ): RealtimeCampaign {
+        if (payload.playingMusicId === null) {
+            campaign.matchData.state.playingMusicId = null;
+            campaign.matchData.state.playingMusicTimeSeconds = 0;
+            campaign.matchData.state.musicPlayback = null;
+            return campaign;
+        }
+
+        this.assertCampaignMusicExists(campaign, payload.playingMusicId);
+
+        const anchorTimeSeconds = this.normalizeRequestedPlayingMusicTimeSeconds(payload.currentTimeSeconds);
+        campaign.matchData.state.playingMusicId = payload.playingMusicId;
+        campaign.matchData.state.playingMusicTimeSeconds = anchorTimeSeconds;
+        campaign.matchData.state.musicPlayback = {
+            anchorTimeSeconds,
+            anchorUpdatedAt: updatedAt,
+            isPlaying: true,
+        };
+
+        return campaign;
+    }
+
+    private assertCampaignMusicExists(campaign: RealtimeCampaign, playingMusicId: string): void {
+        const musicExists = (campaign.musics ?? []).some((music) => music.id === playingMusicId);
+        if (!musicExists) HttpRequestErrors.throwError('content-inexistent');
+    }
+
+    private normalizeRequestedPlayingMusicTimeSeconds(value: unknown, defaultValue?: number): number {
+        if (value === undefined && defaultValue !== undefined) return defaultValue;
+
+        if (typeof value === 'number' && Number.isFinite(value) && value >= 0) {
+            return value;
+        }
+
+        throw new HttpRequestErrors({
+            message: 'Current time seconds must be a non-negative number',
+            code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+            name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
+        });
     }
 
     private listConnectedUsers(

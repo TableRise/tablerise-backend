@@ -24,7 +24,7 @@ export default class PublishmentOperation {
             payload,
         });
 
-        const savedCampaign = await this.publishmentService.save(campaignWithPost);
+        const savedCampaign = await this.publishmentService.save(campaignWithPost, userId);
         const createdPost = savedCampaign.infos.journal[savedCampaign.infos.journal.length - 1];
 
         this.socketIO.syncActiveCampaign(savedCampaign);

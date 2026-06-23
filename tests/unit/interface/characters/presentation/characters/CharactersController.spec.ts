@@ -190,6 +190,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         const request = {
             params: { id: 'character-1' },
             query: { equipmentId: 'equipment-1' },
+            user: { userId: 'user-1' },
         } as unknown as Request;
         const response = {
             status: sinon.stub().returnsThis(),
@@ -201,6 +202,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         expect(addEquipmentOperation.execute).to.have.been.calledWith({
             characterId: 'character-1',
             equipmentId: 'equipment-1',
+            userId: 'user-1',
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
     });

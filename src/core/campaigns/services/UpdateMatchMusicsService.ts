@@ -45,6 +45,8 @@ export default class UpdateMatchMusicsService {
 
         if ((campaign.matchData as any)?.state?.playingMusicId === id) {
             (campaign.matchData as any).state.playingMusicId = null;
+            (campaign.matchData as any).state.playingMusicTimeSeconds = 0;
+            (campaign.matchData as any).state.musicPlayback = null;
         }
 
         return campaign;

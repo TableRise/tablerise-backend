@@ -125,6 +125,8 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
                 expect(campaignEnriched.updatedAt).to.be.not.null();
+                expect((campaignEnriched.matchData as any).state.playingMusicTimeSeconds).to.equal(0);
+                expect((campaignEnriched.matchData as any).state.musicPlayback).to.equal(null);
             });
 
             it('should return the correct result without image', async () => {
@@ -336,6 +338,20 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignSaved).to.be.deep.equal(campaign);
                 expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
                 expect(userDetails.gameInfo.badges).to.deep.equal(['cleric']);
+                expect(userDetails.xp).to.equal(700);
+            });
+
+            it('should keep rank based on xp even when campaign badges bring the total to 20', async () => {
+                userDetails.gameInfo.badges = Array.from({ length: 19 }, (_, index) => `badge-${index}`);
+                userDetails.gameInfo.campaignsCreatedAmount = 1;
+                userDetails.xp = 0;
+                userDetails.rank = 'bronze';
+
+                await createCampaignService.save(campaign);
+
+                expect(userDetails.gameInfo.badges).to.include('cleric');
+                expect(userDetails.gameInfo.badges).to.have.length(20);
+                expect(userDetails.rank).to.equal('bronze');
             });
         });
 

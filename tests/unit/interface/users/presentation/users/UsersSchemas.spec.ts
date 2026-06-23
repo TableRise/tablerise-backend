@@ -136,6 +136,61 @@ describe('Interface :: Users :: Presentation :: Users :: UsersSchemas', () => {
         ).to.throw();
     });
 
+    it('should validate user details payloads with title only and reject system-managed progression fields', () => {
+        const schemas = UsersSchemas();
+
+        expect(() =>
+            schemas.postCreateUser.body.parse({
+                email: 'lia@example.com',
+                password: 'Password@1',
+                nickname: 'Lia',
+                gender: 'female',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.postCreateUser.body.parse({
+                email: 'lia@example.com',
+                password: 'Password@1',
+                nickname: 'Lia',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.putUpdateUserDetails.body.parse({
+                firstName: 'Lia',
+                gender: 'female',
+                title: 'Guild Master',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.putUpdateUserDetails.body.parse({
+                xp: 120,
+            })
+        ).to.throw();
+
+        expect(() =>
+            schemas.putUpdateUserDetails.body.parse({
+                level: 3,
+            })
+        ).to.throw();
+
+        expect(() =>
+            schemas.putUpdateUserDetails.body.parse({
+                title: 'a'.repeat(81),
+            })
+        ).to.throw();
+    });
+
+    it('should validate the admin xp patch query', () => {
+        const schemas = UsersSchemas();
+
+        expect(schemas.patchUpdateUserXp.query.parse({ xp: '777' })).to.deep.equal({ xp: 777 });
+        expect(() => schemas.patchUpdateUserXp.query.parse({ xp: '0' })).to.throw();
+        expect(() => schemas.patchUpdateUserXp.query.parse({ xp: '1.5' })).to.throw();
+    });
+
     it('should parse the accept-friend decline flag', () => {
         const schemas = UsersSchemas();
 

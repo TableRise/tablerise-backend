@@ -23,6 +23,7 @@ import {
     TRegisterDonationQuery,
     TUpdateCampaignNotesBody,
     TUpdateCampaignNotesQuery,
+    TUpdateUserXpQuery,
 } from './UsersSchemas';
 import User from '@tablerise/database-management/dist/src/interfaces/User';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -31,6 +32,7 @@ export default class UsersController {
     private readonly createUserOperation;
     private readonly updateUserOperation;
     private readonly updateUserDetailsOperation;
+    private readonly updateUserXpOperation;
     private readonly verifyEmailOperation;
     private readonly getUsersOperation;
     private readonly getUserByIdOperation;
@@ -97,6 +99,7 @@ export default class UsersController {
         createUserOperation,
         updateUserOperation,
         updateUserDetailsOperation,
+        updateUserXpOperation,
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
@@ -122,6 +125,7 @@ export default class UsersController {
         this.createUserOperation = createUserOperation;
         this.updateUserOperation = updateUserOperation;
         this.updateUserDetailsOperation = updateUserDetailsOperation;
+        this.updateUserXpOperation = updateUserXpOperation;
         this.verifyEmailOperation = verifyEmailOperation;
         this.getUsersOperation = getUsersOperation;
         this.getUserByIdOperation = getUserByIdOperation;
@@ -147,6 +151,7 @@ export default class UsersController {
         this.register = this.register.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.updateUserDetails = this.updateUserDetails.bind(this);
+        this.updateUserXp = this.updateUserXp.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.getUserByNicknameAndTag = this.getUserByNicknameAndTag.bind(this);
@@ -210,6 +215,18 @@ export default class UsersController {
         const payload = req.body as UpdateUserDetailsPayload['payload'];
 
         const result = await this.updateUserDetailsOperation.execute({ userId: id, payload });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateUserXp(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { xp } = req.query as unknown as TUpdateUserXpQuery;
+
+        this.assertOwner(id, userId);
+
+        const result = await this.updateUserXpOperation.execute({ userId: id, xp });
 
         return res.status(HttpStatusCode.OK).json(result);
     }

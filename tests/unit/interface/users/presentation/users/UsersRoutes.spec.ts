@@ -31,6 +31,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             patchUpdateUserCover: { body: {} },
             patchUpdatePassword: { example: {} },
             patchUpdateCampaignNotes: { query: {}, body: {} },
+            patchUpdateUserXp: { query: {} },
             patchAcceptFriend: { query: {} },
         };
         verifyIdMiddleware = () => ({});
@@ -55,7 +56,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(39);
+            expect(routes).to.have.lengthOf(40);
             expect(routes.find((route) => route.path === '/')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/support/post')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/donate')).to.be.not.undefined();
@@ -73,6 +74,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             expect(routes.find((route) => route.path === '/:id/friends/:targetUserId/favorite')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover/remove')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/update/xp')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/message')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.postMessage.body,
             });
@@ -90,6 +92,13 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             expect(routes.find((route) => route.path === '/:id/update/cover')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.patchUpdateUserCover.body,
             });
+            expect(routes.find((route) => route.path === '/:id/update/xp')?.options?.schemas?.[0]).to.be.deep.equal({
+                query: usersSchemas.patchUpdateUserXp.query,
+            });
+            expect(routes.find((route) => route.path === '/:id/update/xp')?.options?.middlewares).to.have.length(2);
+            expect(routes.find((route) => route.path === '/:id/update/xp')?.options?.middlewares?.[1]).to.equal(
+                verifyIdMiddleware
+            );
             expect(
                 routes.find((route) => route.path === '/:id/friends/accept/:targetUserId')?.options?.schemas?.[0]
             ).to.be.deep.equal({

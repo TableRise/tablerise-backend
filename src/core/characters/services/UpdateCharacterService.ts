@@ -1,6 +1,7 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { updateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
+import reconcileCharacterHitPoints from 'src/core/characters/services/helpers/reconcileCharacterHitPoints';
 
 export default class UpdateCharacterService {
     private readonly charactersRepository;
@@ -18,6 +19,7 @@ export default class UpdateCharacterService {
         this.logger('info', callName);
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
+        const { status } = payload;
         const {
             profile: profilePayload,
             stats: statsPayload,
@@ -48,9 +50,15 @@ export default class UpdateCharacterService {
             currentLevel,
             nextLevel,
         });
+        const nextHitPoints = reconcileCharacterHitPoints({
+            previousHitPoints: dbStats?.hitPoints,
+            payloadHitPoints: statsPayload?.hitPoints,
+            recalculatedHitPoints,
+        });
 
         const characterToUpdate = {
             ...characterInDb,
+            ...(status !== undefined ? { status } : {}),
             data: {
                 ...characterInDb.data,
                 profile: {
@@ -85,11 +93,7 @@ export default class UpdateCharacterService {
                 stats: {
                     ...dbStats,
                     ...(statsPayload ?? {}),
-                    hitPoints: {
-                        ...(dbStats?.hitPoints ?? {}),
-                        ...(statsPayload?.hitPoints ?? {}),
-                        ...(recalculatedHitPoints ?? {}),
-                    },
+                    hitPoints: nextHitPoints,
                     deathSaves: {
                         ...(dbStats?.deathSaves ?? {}),
                         ...(statsPayload?.deathSaves ?? {}),
@@ -160,7 +164,7 @@ export default class UpdateCharacterService {
     }: {
         dbAbilityScores?: Array<{ ability?: string; modifier?: number; value?: number }>;
         payloadAbilityScores?: Array<{ ability?: string; modifier?: number; value?: number }>;
-        dbHitPoints?: { points?: number; currentPoints?: number };
+        dbHitPoints?: { points?: number; currentPoints?: number; tempPoints?: number };
         currentLevel?: number;
         nextLevel?: number;
     }): { points?: number; currentPoints?: number } | undefined {

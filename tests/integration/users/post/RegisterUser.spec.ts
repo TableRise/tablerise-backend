@@ -29,11 +29,16 @@ describe('When a user is created', function () {
 
             expect(body).to.have.property('details');
             expect(body.details).to.have.property('userId');
+            expect(body.details).to.have.property('gender').that.is.equal(payload.gender);
             expect(body.details).to.have.property('gameInfo');
             expect(body.details.gameInfo).to.have.property('campaigns').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('characters').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('badges').that.is.an('array');
-            expect(body.details.gameInfo.badges).to.deep.equal([]);
+            expect(body.details.gameInfo.badges).to.deep.equal(['newbie']);
+            expect(body.details.gameInfo.userRegistered).to.equal(1);
+            expect(body.details.gameInfo.userLevelAmount).to.equal(0);
+            expect(body.details.xp).to.equal(0);
+            expect(body.details.level).to.equal(1);
             expect(body.details).to.have.property('rank').that.is.equal('bronze');
             expect(body.details).to.have.property('role').that.is.equal('user');
         });

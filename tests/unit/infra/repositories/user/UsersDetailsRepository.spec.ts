@@ -104,6 +104,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                     campaignsCreatedAmount: 3,
                     donateAmount: 12,
                     playersAdded: 7,
+                    userRegistered: 1,
+                    userLevelAmount: 4,
                 },
             });
 
@@ -137,6 +139,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                     campaignsCreatedAmount: 3,
                     donateAmount: 12,
                     playersAdded: 7,
+                    userRegistered: 1,
+                    userLevelAmount: 4,
                 },
             } as UserDetail);
 
@@ -144,6 +148,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
             expect(result.gameInfo.campaignsCreatedAmount).to.equal(3);
             expect(result.gameInfo.donateAmount).to.equal(12);
             expect(result.gameInfo.playersAdded).to.equal(7);
+            expect(result.gameInfo.userRegistered).to.equal(1);
+            expect(result.gameInfo.userLevelAmount).to.equal(4);
         });
 
         it('should skip raw persistence when the payload has no numeric campaignsCreatedAmount', async () => {
@@ -306,6 +312,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 equipBoughtAmount: 0,
                 donateAmount: 0,
                 playersAdded: 0,
+                userRegistered: 0,
+                userLevelAmount: 0,
             });
         });
 
@@ -583,6 +591,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                         campaignsCreatedAmount: 9,
                         donateAmount: 48,
                         playersAdded: 14,
+                        userRegistered: 1,
+                        userLevelAmount: 9,
                     },
                 });
 
@@ -622,6 +632,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                             campaignsCreatedAmount: 9,
                             donateAmount: 48,
                             playersAdded: 14,
+                            userRegistered: 1,
+                            userLevelAmount: 9,
                         },
                     },
                 });
@@ -631,6 +643,8 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 expect(result.gameInfo.campaignsCreatedAmount).to.equal(9);
                 expect(result.gameInfo.donateAmount).to.equal(48);
                 expect(result.gameInfo.playersAdded).to.equal(14);
+                expect(result.gameInfo.userRegistered).to.equal(1);
+                expect(result.gameInfo.userLevelAmount).to.equal(9);
             });
 
             it('should skip raw counter persistence during update when campaignsCreatedAmount is absent', async () => {

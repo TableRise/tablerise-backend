@@ -46,7 +46,7 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
             const campaignToPost = await publishmentOperation.execute(postPayload);
 
             expect(publishmentService.addPost).to.have.been.calledWith(postPayload);
-            expect(publishmentService.save).to.have.been.calledWith(campaign);
+            expect(publishmentService.save).to.have.been.calledWith(campaign, postPayload.userId);
             expect(campaignToPost).to.be.deep.equal(campaign);
         });
     });

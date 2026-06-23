@@ -6,6 +6,12 @@ import { AnswerFriendRequestPayload, FriendLookupPayload, UserFriend } from 'src
 import { ensureUserDetailCollections, getFriendStatus } from 'src/domains/users/helpers/UserDetailCollections';
 import { awardFriendBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class FriendsService {
     private readonly usersRepository;
@@ -149,6 +155,8 @@ export default class FriendsService {
         }
 
         accepterDetails.friends[friendIndex].status = 'active';
+        const accepterProgressionSnapshot = snapshotProgression(accepterDetails);
+        const requesterProgressionSnapshot = snapshotProgression(requesterDetails);
 
         const mirroredFriend = this.buildFriendEntry({
             userId,
@@ -170,6 +178,10 @@ export default class FriendsService {
         incrementGameInfoCounter(requesterDetails, 'playersAdded');
         awardFriendBadges(accepterDetails);
         awardFriendBadges(requesterDetails);
+        addXp(accepterDetails, USER_XP_EVENTS.ADD_FRIEND);
+        addXp(requesterDetails, USER_XP_EVENTS.ADD_FRIEND);
+        finalizeProgression(accepterDetails, accepterProgressionSnapshot);
+        finalizeProgression(requesterDetails, requesterProgressionSnapshot);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: accepterDetails.userDetailId },

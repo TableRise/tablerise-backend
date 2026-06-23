@@ -25,6 +25,9 @@ describe('When deleting a campaign', () => {
         const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: authenticatedUserDetailsId });
         authenticatedUserDetails.gameInfo.campaignsClosedAmount = 1;
         authenticatedUserDetails.gameInfo.badges = [];
+        authenticatedUserDetails.xp = 0;
+        authenticatedUserDetails.level = 1;
+        authenticatedUserDetails.rank = 'bronze';
         await userDetailsModel.update({ userDetailId: authenticatedUserDetailsId }, authenticatedUserDetails);
 
         campaign.campaignPlayers = [
@@ -50,6 +53,7 @@ describe('When deleting a campaign', () => {
 
         expect(authenticatedUserUpdated.details.gameInfo.campaignsClosedAmount).to.equal(2);
         expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('warrior');
+        expect(authenticatedUserUpdated.details.xp).to.equal(600);
 
         await requester()
             .get(`/campaigns/${campaign.campaignId as string}`)

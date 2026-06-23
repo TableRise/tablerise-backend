@@ -1533,6 +1533,14 @@
                         "type": "string"
                       }
                     }
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "alive",
+                      "dead",
+                      "half-live"
+                    ]
                   }
                 },
                 "required": [

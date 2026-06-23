@@ -4,8 +4,9 @@ import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaig
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import { isClosedCampaign } from 'src/domains/common/helpers/RepositoryVisibility';
+import { RealtimeCampaign } from 'src/types/realtime';
 
-type MatchStatePatch = Partial<Omit<Campaign['matchData']['state'], 'tokens'>>;
+type MatchStatePatch = Partial<Omit<RealtimeCampaign['matchData']['state'], 'tokens'>>;
 
 interface RealtimeStateUpdatePayload {
     matchStateFields?: MatchStatePatch;
@@ -38,14 +39,41 @@ export default class CampaignsRepository {
         return this.serializer.postCampaign(format);
     }
 
+    private getRawCollection():
+        | {
+              find: (query: any) => { toArray: () => Promise<Campaign[]> };
+              findOne: (query: any) => Promise<Campaign | null>;
+              updateOne: (query: any, payload: any) => Promise<unknown>;
+          }
+        | undefined {
+        const model = this.model as any;
+        if (!model?._model) return undefined;
+        return model._model.collection;
+    }
+
+    private async persistRawInfoFields(query: any, payload: Campaign): Promise<void> {
+        const rawCollection = this.getRawCollection();
+        if (!rawCollection?.updateOne) return;
+
+        if (!Array.isArray(payload.infos?.adminXpGrantedUserIds)) return;
+
+        await rawCollection.updateOne(query, {
+            $set: {
+                'infos.adminXpGrantedUserIds': payload.infos.adminXpGrantedUserIds,
+            },
+        });
+    }
+
     private async updateAndSerialize(query: any, payload: any): Promise<Campaign> {
         const request = await this.model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
         await this.updateTimestampRepository.updateTimestamp(query);
+        await this.persistRawInfoFields(query, payload as Campaign);
 
-        return this.formatAndSerializeData(request);
+        const rawRequest = await this.getRawCollection()?.findOne(query);
+        return this.formatAndSerializeData((rawRequest ?? request) as Campaign);
     }
 
     public async create(payload: Campaign): Promise<Campaign> {
@@ -55,13 +83,16 @@ export default class CampaignsRepository {
         payload.campaignId = newUUID();
 
         const request = await this.model.create(payload);
-        return this.formatAndSerializeData(request);
+        await this.persistRawInfoFields({ campaignId: payload.campaignId }, payload);
+
+        const rawRequest = await this.getRawCollection()?.findOne({ campaignId: payload.campaignId });
+        return this.formatAndSerializeData((rawRequest ?? request) as Campaign);
     }
 
     public async findOne(query: any = {}): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
         this.logger('info', callName);
-        const request = await this.model.findOne(query);
+        const request = (await this.getRawCollection()?.findOne(query)) ?? (await this.model.findOne(query));
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
         const campaign = this.formatAndSerializeData(request);
@@ -73,7 +104,8 @@ export default class CampaignsRepository {
     public async find(query: any = {}): Promise<Campaign[]> {
         const callName = `[${this.constructor.name}] - ${this.find.name}`;
         this.logger('info', callName);
-        const request = await this.model.findAll(query);
+        const rawCollection = this.getRawCollection();
+        const request = rawCollection ? await rawCollection.find(query).toArray() : await this.model.findAll(query);
 
         return request
             .map((data) => this.formatAndSerializeData(data))

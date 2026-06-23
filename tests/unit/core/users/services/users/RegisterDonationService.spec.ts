@@ -141,11 +141,12 @@ describe('Core :: Users :: Services :: RegisterDonationService', () => {
         });
     });
 
-    it('should award higher donation badges and resync rank based on total badges', async () => {
+    it('should award higher donation badges without deriving rank from badge count', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         userDetails.gameInfo.badges = Array.from({ length: 17 }, (_, index) => `existing-badge-${index}`);
         userDetails.gameInfo.donateAmount = 49;
         userDetails.rank = 'bronze';
+        userDetails.xp = 0;
 
         const usersDetailsRepository = {
             findOne: sinon.stub().returns(userDetails),
@@ -170,7 +171,8 @@ describe('Core :: Users :: Services :: RegisterDonationService', () => {
 
         expect(userDetails.gameInfo.donateAmount).to.equal(100);
         expect(userDetails.gameInfo.badges).to.include.members(['donate_normal', 'donate_rare', 'donate_super_rare']);
-        expect(userDetails.rank).to.equal('white');
+        expect(userDetails.rank).to.equal('bronze');
+        expect(userDetails.xp).to.equal(1200);
     });
 
     it('should throw an external error when donation email sending fails', async () => {

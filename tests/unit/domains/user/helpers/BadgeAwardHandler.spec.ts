@@ -5,7 +5,6 @@ import {
     awardDonationBadges,
     awardFriendBadges,
     awardNewbieBadge,
-    syncRankByBadgesLength,
 } from 'src/domains/users/helpers/BadgeAwardHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
@@ -18,10 +17,11 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         userDetails.rank = 'existing-rank';
     });
 
-    it('should keep newbie badge flow disabled', () => {
+    it('should award the newbie badge once', () => {
+        awardNewbieBadge(userDetails);
         awardNewbieBadge(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.deep.equal([]);
+        expect(userDetails.gameInfo.badges).to.deep.equal(['newbie']);
     });
 
     it('should add joined and created badges when thresholds are reached', () => {
@@ -107,29 +107,15 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         expect(userDetails.gameInfo.badges).to.include('friends_rare');
     });
 
-    it('should sync rank to bronze, diamond, gold, and white based on badge count', () => {
-        userDetails.gameInfo.badges = Array.from({ length: 10 }, (_, index) => `badge-${index}`);
-        syncRankByBadgesLength(userDetails);
-        expect(userDetails.rank).to.equal('diamond');
+    it('should not mutate rank when awarding badges', () => {
+        userDetails.rank = 'gold';
+        userDetails.gameInfo.campaignsJoinedAmount = 50;
+        userDetails.gameInfo.campaignsCreatedAmount = 50;
+        userDetails.gameInfo.campaignsClosedAmount = 50;
+        userDetails.gameInfo.equipBoughtAmount = 90;
 
-        userDetails.gameInfo.badges = Array.from({ length: 15 }, (_, index) => `badge-${index}`);
-        syncRankByBadgesLength(userDetails);
+        awardCampaignBadges(userDetails);
+
         expect(userDetails.rank).to.equal('gold');
-
-        userDetails.gameInfo.badges = Array.from({ length: 20 }, (_, index) => `badge-${index}`);
-        syncRankByBadgesLength(userDetails);
-        expect(userDetails.rank).to.equal('white');
-
-        userDetails.gameInfo.badges = ['only-one'];
-        syncRankByBadgesLength(userDetails);
-        expect(userDetails.rank).to.equal('bronze');
-    });
-
-    it('should keep bronze rank when gameInfo or badges are missing', () => {
-        delete (userDetails as any).gameInfo;
-
-        syncRankByBadgesLength(userDetails);
-
-        expect(userDetails.rank).to.equal('bronze');
     });
 });

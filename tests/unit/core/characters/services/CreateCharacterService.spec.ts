@@ -243,6 +243,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 const characterCreated = await createCharacterService.save(characterMock);
                 expect(characterCreated).to.deep.equal(characterMock);
                 expect(userDetailsUpdated.gameInfo.badges).to.deep.equal([]);
+                expect(userDetailsUpdated.xp).to.equal(100);
             });
         });
 

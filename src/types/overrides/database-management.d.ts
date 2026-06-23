@@ -1,5 +1,11 @@
 export {};
 
+declare module '@tablerise/database-management/dist/src/interfaces/Campaigns' {
+    interface Infos {
+        adminXpGrantedUserIds?: string[];
+    }
+}
+
 declare module '@tablerise/database-management/dist/src/interfaces/User' {
     interface GameInfo {
         campaignsCreatedAmount?: number;

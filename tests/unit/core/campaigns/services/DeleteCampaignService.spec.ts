@@ -50,11 +50,16 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignService', () => {
                     findOne: sinon.stub().callsFake(async ({ userId }) => ({
                         ...UsersDomainDataFaker.generateUserDetailsJSON()[0],
                         userId,
+                        xp: 0,
+                        level: 1,
+                        rank: 'bronze',
                         gameInfo: {
+                            ...UsersDomainDataFaker.generateUserDetailsJSON()[0].gameInfo,
                             campaigns: [],
                             characters: [],
                             badges: [],
                             campaignsClosedAmount: 1,
+                            userLevelAmount: 0,
                         },
                     })),
                     update: sinon.stub().resolves(),
@@ -82,6 +87,7 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignService', () => {
                 expect(usersDetailsRepository.update.firstCall.args[0].payload.gameInfo.campaignsClosedAmount).to.equal(
                     2
                 );
+                expect(usersDetailsRepository.update.firstCall.args[0].payload.xp).to.equal(600);
                 expect(usersDetailsRepository.update.firstCall.args[0].payload.gameInfo.badges).to.deep.equal([
                     'warrior',
                 ]);
@@ -167,11 +173,16 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignService', () => {
                             : {
                                   ...UsersDomainDataFaker.generateUserDetailsJSON()[0],
                                   userId,
+                                  xp: 0,
+                                  level: 1,
+                                  rank: 'bronze',
                                   gameInfo: {
+                                      ...UsersDomainDataFaker.generateUserDetailsJSON()[0].gameInfo,
                                       campaigns: [],
                                       characters: [],
                                       badges: [],
                                       campaignsClosedAmount: 1,
+                                      userLevelAmount: 0,
                                   },
                               }
                     ),

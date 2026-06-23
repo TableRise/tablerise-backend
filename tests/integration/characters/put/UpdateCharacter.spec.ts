@@ -48,6 +48,7 @@ describe('When some character is updated', () => {
 
         it('should return correct character updated', async () => {
             const characterUpdatePayload = {
+                status: 'dead',
                 data: {
                     ...character.data,
                     profile: {
@@ -76,6 +77,7 @@ describe('When some character is updated', () => {
             expect(body.data.profile).to.have.property('xp');
             expect(body.data.profile).to.have.property('characteristics');
             expect(body.data.profile.name).to.be.equal('test name');
+            expect(body.status).to.equal('dead');
         });
 
         it('should turn notifications on when the character level increases', async () => {
@@ -120,6 +122,49 @@ describe('When some character is updated', () => {
             );
             expect(body.data.stats.hitPoints.tempPoints).to.equal(character.data.stats.hitPoints.tempPoints);
             expect(body.data.stats.hitPoints.dicePoints).to.equal(character.data.stats.hitPoints.dicePoints);
+        });
+
+        it('should recalculate current hit points when temp points change', async () => {
+            const { body } = await requester()
+                .put(`/characters/${characterId}/update`)
+                .send({
+                    data: {
+                        stats: {
+                            hitPoints: {
+                                tempPoints: 10,
+                                currentPoints: 1,
+                            },
+                        },
+                    },
+                })
+                .expect(HttpStatusCode.OK);
+
+            const baseCurrentPoints =
+                character.data.stats.hitPoints.currentPoints - character.data.stats.hitPoints.tempPoints;
+
+            expect(body.data.stats.hitPoints.points).to.equal(character.data.stats.hitPoints.points);
+            expect(body.data.stats.hitPoints.tempPoints).to.equal(10);
+            expect(body.data.stats.hitPoints.currentPoints).to.equal(baseCurrentPoints + 10);
+        });
+
+        it('should recalculate current hit points from points plus temp points when max hit points change', async () => {
+            const { body } = await requester()
+                .put(`/characters/${characterId}/update`)
+                .send({
+                    data: {
+                        stats: {
+                            hitPoints: {
+                                points: 70,
+                                currentPoints: 1,
+                            },
+                        },
+                    },
+                })
+                .expect(HttpStatusCode.OK);
+
+            expect(body.data.stats.hitPoints.points).to.equal(70);
+            expect(body.data.stats.hitPoints.tempPoints).to.equal(character.data.stats.hitPoints.tempPoints);
+            expect(body.data.stats.hitPoints.currentPoints).to.equal(70 + character.data.stats.hitPoints.tempPoints);
         });
     });
 });

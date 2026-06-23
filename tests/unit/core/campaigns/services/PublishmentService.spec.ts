@@ -3,11 +3,14 @@ import PublishmentService from 'src/core/campaigns/services/PublishmentService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import UsersDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Campaigns :: Services :: PublishmentService', () => {
     let publishmentService: PublishmentService;
     let campaignsRepository: any;
+    let usersDetailsRepository: any;
     let campaign: Campaign;
+    let userDetails: any;
 
     const logger = (): void => {};
 
@@ -22,14 +25,33 @@ describe('Core :: Campaigns :: Services :: PublishmentService', () => {
             },
         ];
         campaign.infos.journal = [];
+        userDetails = {
+            ...UsersDomainDataFaker.generateUserDetailsJSON()[0],
+            userDetailId: 'detail-id',
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            xp: 0,
+            level: 1,
+            rank: 'bronze',
+            gameInfo: {
+                ...UsersDomainDataFaker.generateUserDetailsJSON()[0].gameInfo,
+                badges: [],
+                userLevelAmount: 0,
+            },
+        };
 
         campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
             update: sinon.stub().callsFake(async ({ payload }) => payload),
         };
 
+        usersDetailsRepository = {
+            findOne: sinon.stub().resolves(userDetails),
+            update: sinon.stub().resolves(userDetails),
+        };
+
         publishmentService = new PublishmentService({
             campaignsRepository,
+            usersDetailsRepository,
             logger,
         } as any);
     });
@@ -56,13 +78,28 @@ describe('Core :: Campaigns :: Services :: PublishmentService', () => {
     });
 
     it('should persist the campaign', async () => {
-        const result = await publishmentService.save(campaign);
+        const result = await publishmentService.save(campaign, userDetails.userId);
 
         expect(campaignsRepository.update).to.have.been.calledWith({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
+        expect(usersDetailsRepository.update).to.have.been.calledWith({
+            query: { userDetailId: 'detail-id' },
+            payload: sinon.match.has('xp', 20).and(sinon.match.has('rank', 'bronze')),
+        });
         expect(result).to.be.deep.equal(campaign);
+    });
+
+    it('should throw when the post author user details do not exist during save', async () => {
+        usersDetailsRepository.findOne = sinon.stub().resolves(null);
+
+        try {
+            await publishmentService.save(campaign, '12cd093b-0a8a-42fe-910f-001f2ab28454');
+            expect.fail('Expected missing user details error');
+        } catch (error) {
+            expect((error as HttpRequestErrors).message).to.equal('User does not exist');
+        }
     });
 
     it('should reject a forbidden player category', async () => {

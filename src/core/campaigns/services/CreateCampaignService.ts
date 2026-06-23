@@ -16,6 +16,12 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { appendGalleryImage } from 'src/domains/users/helpers/UserDetailCollections';
 import { resolveImageUpload, resolveImageUploads } from 'src/domains/common/helpers/resolveImageUpload';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 function normalizeBooleanValue(value: boolean | string | undefined): boolean {
     return value === true || value === 'true';
@@ -130,6 +136,8 @@ export default class CreateCampaignService {
                 gridVisible: true,
                 activeEffect: null,
                 playingMusicId: null,
+                playingMusicTimeSeconds: 0,
+                musicPlayback: null,
                 visibleCharacterIds: [],
                 tokens: [],
             },
@@ -192,9 +200,12 @@ export default class CreateCampaignService {
             ...campaign,
         });
 
+        const progressionSnapshot = snapshotProgression(userDetailsInDb);
         incrementGameInfoCounter(userDetailsInDb, 'campaignsCreatedAmount');
         userDetailsInDb.gameInfo.campaigns.push(campaignCreated.campaignId as string);
         awardCampaignBadges(userDetailsInDb);
+        addXp(userDetailsInDb, USER_XP_EVENTS.CAMPAIGN_CREATION);
+        finalizeProgression(userDetailsInDb, progressionSnapshot);
 
         if (appendCoverToGallery && campaignCreated.cover) {
             appendGalleryImage(userDetailsInDb, campaignCreated.cover);

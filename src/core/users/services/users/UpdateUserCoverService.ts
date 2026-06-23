@@ -5,6 +5,12 @@ import { UpdateUserCoverPayload } from 'src/types/api/users/http/payload';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { appendGalleryImage } from 'src/domains/users/helpers/UserDetailCollections';
 import { resolveImageUpload } from 'src/domains/common/helpers/resolveImageUpload';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class UpdateUserCoverService {
     private readonly usersDetailsRepository;
@@ -42,10 +48,17 @@ export default class UpdateUserCoverService {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
         }
+        const shouldAwardFirstCoverXp = userDetails.cover == null;
         userDetails.cover = uploaded;
 
         if (imageObject === undefined) {
             appendGalleryImage(userDetails, uploaded);
+        }
+
+        if (shouldAwardFirstCoverXp) {
+            const progressionSnapshot = snapshotProgression(userDetails);
+            addXp(userDetails, USER_XP_EVENTS.FIRST_PROFILE_COVER);
+            finalizeProgression(userDetails, progressionSnapshot);
         }
 
         await this.usersDetailsRepository.update({

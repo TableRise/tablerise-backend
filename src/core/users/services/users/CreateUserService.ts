@@ -5,6 +5,13 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
+import { awardNewbieBadge } from 'src/domains/users/helpers/BadgeAwardHandler';
+import {
+    DEFAULT_USER_PROFILE_PICTURE_LINK,
+    DEFAULT_USER_TITLE,
+    finalizeProgression,
+    snapshotProgression,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class CreateUserService {
     private readonly usersRepository;
@@ -35,7 +42,9 @@ export default class CreateUserService {
         const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
         this.logger('info', callName);
         const userSerialized = this.serializer.postUser(user);
-        const userDetailsSerialized = this.serializer.postUserDetails({});
+        const userDetailsSerialized = this.serializer.postUserDetails({
+            gender: user.gender,
+        });
 
         const userInDb = await this.usersRepository.find({
             email: userSerialized.email,
@@ -70,7 +79,7 @@ export default class CreateUserService {
         };
         user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
         user.picture = {
-            link: 'https://i.ibb.co/gZSWpVM7/Chat-GPT-Image-23-de-mai-de-2026-14-04-30.png',
+            link: DEFAULT_USER_PROFILE_PICTURE_LINK,
             title: '',
             id: '',
             deleteUrl: '',
@@ -93,9 +102,19 @@ export default class CreateUserService {
             equipBoughtAmount: 0,
             donateAmount: 0,
             playersAdded: 0,
+            userRegistered: 0,
+            userLevelAmount: 0,
         };
+        userDetails.title = DEFAULT_USER_TITLE;
+        userDetails.xp = 0;
+        userDetails.level = 1;
         userDetails.role = 'user';
         userDetails.rank = 'bronze';
+
+        const progressionSnapshot = snapshotProgression(userDetails);
+        userDetails.gameInfo.userRegistered = 1;
+        awardNewbieBadge(userDetails);
+        finalizeProgression(userDetails, progressionSnapshot);
 
         return {
             userEnriched: user,

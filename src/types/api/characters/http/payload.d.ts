@@ -35,6 +35,7 @@ export interface updateCharacterPayload {
 export interface ManageEquipmentPayload {
     characterId: string;
     equipmentId: string;
+    userId?: string;
 }
 
 export interface UpdateCharacterMoneyPayload {

@@ -5,6 +5,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
+import { DEFAULT_USER_PROFILE_PICTURE_LINK } from 'src/domains/users/helpers/UserProgression';
 
 describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
     const logger = (): void => {};
@@ -20,7 +21,14 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
     it('should upload the profile picture and append it to the user gallery', async () => {
         const user = DomainDataFaker.generateUsersJSON()[0];
-        user.picture = {} as User['picture'];
+        user.picture = {
+            id: '',
+            link: DEFAULT_USER_PROFILE_PICTURE_LINK,
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        } as User['picture'];
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         const uploaded = buildUploaded();
 
@@ -54,6 +62,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             payload: userDetails,
         });
         expect(userDetails.gallery.at(-1)).to.deep.equal(uploaded);
+        expect(userDetails.xp).to.equal(100);
         expect(result.picture).to.deep.equal(uploaded);
     });
 
@@ -94,7 +103,14 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
     it('should use the provided imageObject without calling image storage', async () => {
         const user = DomainDataFaker.generateUsersJSON()[0];
-        user.picture = {} as User['picture'];
+        user.picture = {
+            id: '',
+            link: DEFAULT_USER_PROFILE_PICTURE_LINK,
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        } as User['picture'];
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         const uploaded = buildUploaded();
         const imageStorageClient = {
@@ -121,6 +137,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(userDetails.xp).to.equal(100);
     });
 
     it('should reject updates when the picture cooldown has not expired', async () => {
@@ -261,5 +278,6 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         });
 
         expect(result.picture).to.deep.equal(uploaded);
+        expect(userDetails.xp).to.equal(0);
     });
 });

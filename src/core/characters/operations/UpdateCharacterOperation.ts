@@ -27,7 +27,10 @@ export default class UpdateCharacterOperation {
             currentHitPoints: updatedCharacter.data.stats.hitPoints.currentPoints ?? null,
             level: updatedCharacter.data.profile.level ?? null,
         };
-        const updatedFields = this.getUpdatedFields(payload.data ?? {});
+        const updatedFields = this.normalizeUpdatedFields(
+            [...this.getUpdatedFields(payload.data ?? {}), ...this.getUpdatedFields(this.getRootLevelPayload(payload))],
+            payload.data ?? {}
+        );
 
         if (updatedCharacter.campaignId) {
             this.socketIO.emitToCampaign(updatedCharacter.campaignId, 'character:updated', {
@@ -51,5 +54,44 @@ export default class UpdateCharacterOperation {
 
             return [currentPath];
         });
+    }
+
+    private getRootLevelPayload(payload: Record<string, any>): Record<string, any> {
+        const { data, ...rootLevelPayload } = payload;
+        return rootLevelPayload;
+    }
+
+    private normalizeUpdatedFields(updatedFields: string[], payloadData: Record<string, any>): string[] {
+        if (!this.hasHitPointUpdates(payloadData)) {
+            return Array.from(new Set(updatedFields));
+        }
+
+        const hitPointFieldSet = new Set([
+            'stats.hitPoints.points',
+            'stats.hitPoints.currentPoints',
+            'stats.hitPoints.tempPoints',
+            'stats.hitPoints.dicePoints',
+        ]);
+        const normalizedUpdatedFields = updatedFields.filter((updatedField) => !hitPointFieldSet.has(updatedField));
+
+        normalizedUpdatedFields.push(
+            'stats.hitPoints.points',
+            'stats.hitPoints.currentPoints',
+            'stats.hitPoints.tempPoints'
+        );
+
+        if (this.hasOwnProperty(payloadData?.stats?.hitPoints ?? {}, 'dicePoints')) {
+            normalizedUpdatedFields.push('stats.hitPoints.dicePoints');
+        }
+
+        return Array.from(new Set(normalizedUpdatedFields));
+    }
+
+    private hasHitPointUpdates(payloadData: Record<string, any>): boolean {
+        return Object.keys(payloadData?.stats?.hitPoints ?? {}).length > 0;
+    }
+
+    private hasOwnProperty(payloadData: Record<string, any>, propertyName: string): boolean {
+        return Object.prototype.hasOwnProperty.call(payloadData, propertyName);
     }
 }

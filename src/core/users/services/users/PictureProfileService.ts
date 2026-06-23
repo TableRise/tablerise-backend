@@ -7,6 +7,13 @@ import { UserImagePayload } from 'src/types/api/users/http/payload';
 import daysDifference from 'src/domains/common/helpers/daysDifference';
 import { appendGalleryImage } from 'src/domains/users/helpers/UserDetailCollections';
 import { resolveImageUpload } from 'src/domains/common/helpers/resolveImageUpload';
+import {
+    addXp,
+    DEFAULT_USER_PROFILE_PICTURE_LINK,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class PictureProfileService {
     private readonly usersRepository;
@@ -61,12 +68,21 @@ export default class PictureProfileService {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
         }
+        const shouldAwardFirstCustomPictureXp = userInDb.picture?.link === DEFAULT_USER_PROFILE_PICTURE_LINK;
         userInDb.picture = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         if (imageObject === undefined) {
             appendGalleryImage(userDetails, uploaded);
+        }
 
+        if (shouldAwardFirstCustomPictureXp) {
+            const progressionSnapshot = snapshotProgression(userDetails);
+            addXp(userDetails, USER_XP_EVENTS.FIRST_CUSTOM_PROFILE_PICTURE);
+            finalizeProgression(userDetails, progressionSnapshot);
+        }
+
+        if (imageObject === undefined || shouldAwardFirstCustomPictureXp) {
             await this.usersDetailsRepository.update({
                 query: { userDetailId: userDetails.userDetailId },
                 payload: userDetails,

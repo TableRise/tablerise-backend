@@ -5,6 +5,7 @@ import {
     CampaignSyncPayload,
     ConnectedUserPresence,
     MatchToken,
+    MusicPlaybackState,
     RealtimeCampaign,
     RealtimeMatchData,
 } from 'src/types/realtime';
@@ -19,11 +20,49 @@ const isImageObject = (value: unknown): value is ImageObject =>
 const isJournal = (value: unknown): value is Journal =>
     typeof value === 'object' && value !== null && 'title' in value && 'content' in value;
 
+const normalizePlayingMusicTimeSeconds = (value: unknown): number =>
+    typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : 0;
+
+const normalizeMusicPlaybackState = (value: unknown): MusicPlaybackState | null => {
+    if (typeof value !== 'object' || value === null) return null;
+
+    const playback = value as Partial<MusicPlaybackState>;
+    if (typeof playback.anchorUpdatedAt !== 'string') return null;
+    if (!Number.isFinite(new Date(playback.anchorUpdatedAt).getTime())) return null;
+
+    return {
+        anchorTimeSeconds: normalizePlayingMusicTimeSeconds(playback.anchorTimeSeconds),
+        anchorUpdatedAt: playback.anchorUpdatedAt,
+        isPlaying: playback.isPlaying === true,
+    };
+};
+
+export const resolvePlayingMusicTimeSeconds = (
+    state: Pick<RealtimeMatchData['state'], 'playingMusicId' | 'playingMusicTimeSeconds' | 'musicPlayback'>,
+    now: Date = new Date()
+): number => {
+    if (state.playingMusicId === null) return 0;
+
+    if (!state.musicPlayback) {
+        return normalizePlayingMusicTimeSeconds(state.playingMusicTimeSeconds);
+    }
+
+    const anchorUpdatedAtMs = new Date(state.musicPlayback.anchorUpdatedAt).getTime();
+    const elapsedSeconds =
+        state.musicPlayback.isPlaying && Number.isFinite(anchorUpdatedAtMs)
+            ? (now.getTime() - anchorUpdatedAtMs) / 1000
+            : 0;
+
+    return Math.max(0, Math.floor(state.musicPlayback.anchorTimeSeconds + elapsedSeconds));
+};
+
 export const createDefaultMatchState = (): RealtimeMatchData['state'] => ({
     activeMapId: null,
     gridVisible: true,
     activeEffect: null,
     playingMusicId: null,
+    playingMusicTimeSeconds: 0,
+    musicPlayback: null,
     visibleCharacterIds: [],
     tokens: [],
 });
@@ -55,6 +94,7 @@ export const normalizeRealtimeMatchData = (matchData: Campaign['matchData'] | nu
     const legacyMatchData = (matchData ?? {}) as Record<string, any>;
     const actualMapImage = isImageObject(legacyMatchData.actualMapImage) ? legacyMatchData.actualMapImage : undefined;
     const imageHighlighted = isImageObject(legacyMatchData.imageHighlighted) ? legacyMatchData.imageHighlighted : null;
+    const musicPlayback = normalizeMusicPlaybackState(legacyMatchData.state?.musicPlayback);
 
     const normalized: RealtimeMatchData = {
         matchId: typeof legacyMatchData.matchId === 'string' ? legacyMatchData.matchId : newUUID(),
@@ -77,6 +117,10 @@ export const normalizeRealtimeMatchData = (matchData: Campaign['matchData'] | nu
                 typeof legacyMatchData.state?.activeMapId === 'string'
                     ? legacyMatchData.state.activeMapId
                     : actualMapImage?.id ?? null,
+            playingMusicTimeSeconds: musicPlayback
+                ? musicPlayback.anchorTimeSeconds
+                : normalizePlayingMusicTimeSeconds(legacyMatchData.state?.playingMusicTimeSeconds),
+            musicPlayback,
             visibleCharacterIds: Array.isArray(legacyMatchData.state?.visibleCharacterIds)
                 ? legacyMatchData.state.visibleCharacterIds
                 : [],
@@ -162,6 +206,8 @@ export const buildCampaignSyncPayload = (
         gridVisible: campaign.matchData.state.gridVisible,
         activeEffect: campaign.matchData.state.activeEffect,
         playingMusicId: campaign.matchData.state.playingMusicId,
+        playingMusicTimeSeconds: resolvePlayingMusicTimeSeconds(campaign.matchData.state),
+        musicPlayback: campaign.matchData.state.musicPlayback,
         visibleCharacterIds: campaign.matchData.state.visibleCharacterIds,
         tokens: campaign.matchData.state.tokens,
         images: campaign.matchData.images,

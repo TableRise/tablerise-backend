@@ -86,6 +86,44 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             ).to.throw();
         });
 
+        it('should validate campaign update payloads including main history', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    title: 'Campaign',
+                    mainHistory: 'A new history chapter',
+                    playerAmountLimit: 5,
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    playerAmountLimit: 0,
+                })
+            ).to.throw();
+        });
+
+        it('should validate partial campaign configuration updates including playOn', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    configurations: {
+                        playOn: true,
+                    },
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    configurations: {
+                        shopOn: false,
+                    },
+                })
+            ).to.not.throw();
+        });
+
         it('should validate update and delete journal post payloads', () => {
             const schemas = CampaignsSchemas();
 

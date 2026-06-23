@@ -43,9 +43,7 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                 });
 
                 campaignsRepository = {
-                    find: sinon.spy((query: any) =>
-                        campaigns.filter((c: Campaign) => c.infos.visibility === query['infos.visibility'])
-                    ),
+                    find: sinon.spy(() => campaigns),
                 };
 
                 getAllCampaignsService = new GetAllCampaignsService({
@@ -57,7 +55,7 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
             it('should call the correct methods', async () => {
                 const campaignsTest = await getAllCampaignsService.getAll();
 
-                expect(campaignsRepository.find).to.have.been.called();
+                expect(campaignsRepository.find).to.have.been.calledWith({ 'infos.visibility': 'visible' });
                 expect(campaignsTest.length).to.be.equal(campaigns.length - 1);
                 expect(Object.keys(campaignsTest[0]).length).to.be.equal(9);
                 expect(campaignsTest[0].title).not.to.be.equal(campaigns[HIDDEN].title);
@@ -72,14 +70,20 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
             it('should filter by title when provided', async () => {
                 const campaignsTest = await getAllCampaignsService.getAll({ title: 'some-title' });
 
-                expect(campaignsRepository.find).to.have.been.called();
+                expect(campaignsRepository.find).to.have.been.calledWith({
+                    'infos.visibility': 'visible',
+                    title: { $regex: 'some-title', $options: 'i' },
+                });
                 expect(Array.isArray(campaignsTest)).to.be.true();
             });
 
             it('should filter by code when provided', async () => {
                 const campaignsTest = await getAllCampaignsService.getAll({ code: 'ABC123' });
 
-                expect(campaignsRepository.find).to.have.been.called();
+                expect(campaignsRepository.find).to.have.been.calledWith({
+                    'infos.visibility': 'visible',
+                    code: 'ABC123',
+                });
                 expect(Array.isArray(campaignsTest)).to.be.true();
             });
         });

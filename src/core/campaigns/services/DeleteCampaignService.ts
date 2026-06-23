@@ -3,6 +3,12 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
 import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class DeleteCampaignService {
     private readonly campaignsRepository;
@@ -41,8 +47,11 @@ export default class DeleteCampaignService {
                 const userDetails = await this.usersDetailsRepository.findOne({ userId: player.userId });
                 if (!userDetails) return;
 
+                const progressionSnapshot = snapshotProgression(userDetails);
                 incrementGameInfoCounter(userDetails, 'campaignsClosedAmount');
+                addXp(userDetails, USER_XP_EVENTS.CAMPAIGN_COMPLETION);
                 awardCampaignBadges(userDetails);
+                finalizeProgression(userDetails, progressionSnapshot);
 
                 await this.usersDetailsRepository.update({
                     query: { userDetailId: userDetails.userDetailId },

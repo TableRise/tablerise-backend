@@ -47,6 +47,8 @@ describe('When some character is created', function () {
             const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
             authenticatedUserDetails.gameInfo.characters = Array.from({ length: 9 }, (_, index) => `existing-${index}`);
             authenticatedUserDetails.gameInfo.badges = [];
+            authenticatedUserDetails.xp = 0;
+            authenticatedUserDetails.level = 1;
             await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
 
             const characterPayload = CharacterDomainDataFaker.mocks.createCharacterMock;
@@ -71,6 +73,7 @@ describe('When some character is created', function () {
                 .get(`/users/${userLoggedId}`)
                 .expect(HttpStatusCode.OK);
             expect(authenticatedUserUpdated.details.gameInfo.badges).to.deep.equal([]);
+            expect(authenticatedUserUpdated.details.xp).to.equal(100);
         });
 
         it('should not award character badges on twentieth character', async () => {
@@ -80,6 +83,8 @@ describe('When some character is created', function () {
                 (_, index) => `existing-${index}`
             );
             authenticatedUserDetails.gameInfo.badges = [];
+            authenticatedUserDetails.xp = 0;
+            authenticatedUserDetails.level = 1;
             await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
 
             const characterPayload = CharacterDomainDataFaker.mocks.createCharacterMock;

@@ -89,6 +89,7 @@ export interface emailUpdatePayload {
 }
 
 export interface RegisterUserPayload extends Pick<User, 'email' | 'password' | 'nickname'> {
+    gender?: string;
     details: Pick<UserDetail, 'firstName' | 'lastName' | 'birthday' | 'biography'>;
 }
 
@@ -100,7 +101,9 @@ export interface UserDetailsUpdateBodyPayload {
     firstName?: string;
     lastName?: string;
     birthday?: string;
+    gender?: string;
     biography?: string;
+    title?: string;
 }
 
 export interface UpdateUserPayload {
@@ -111,6 +114,11 @@ export interface UpdateUserPayload {
 export interface UpdateUserDetailsPayload {
     userId: string;
     payload: UserDetailsUpdateBodyPayload;
+}
+
+export interface UpdateUserXpPayload {
+    userId: string;
+    xp: number;
 }
 
 export interface ConfirmEmailPayload {

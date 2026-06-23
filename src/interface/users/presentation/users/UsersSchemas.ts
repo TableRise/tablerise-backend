@@ -15,6 +15,7 @@ const postCreateUserBodySchema = z.object({
         message: 'Invalid password',
     }),
     nickname: z.string().max(32),
+    gender: z.string().max(32).optional(),
 });
 
 const postLoginBodySchema = z.object({
@@ -54,12 +55,16 @@ const putUpdateUserBodySchema = z.object({
     nickname: z.string().max(32).optional(),
 });
 
-const putUpdateUserDetailsBodySchema = z.object({
-    firstName: z.string().max(16).optional(),
-    lastName: z.string().max(80).optional(),
-    birthday: z.string().optional(),
-    biography: z.string().max(500).optional(),
-});
+const putUpdateUserDetailsBodySchema = z
+    .object({
+        firstName: z.string().max(16).optional(),
+        lastName: z.string().max(80).optional(),
+        birthday: z.string().optional(),
+        gender: z.string().max(32).optional(),
+        biography: z.string().max(500).optional(),
+        title: z.string().max(80).optional(),
+    })
+    .strict();
 
 const postAuthenticateEmailQuerySchema = z.object({
     email: z.email().default(''),
@@ -108,6 +113,13 @@ const patchUpdateCampaignNotesQuerySchema = z.object({
 const patchUpdateCampaignNotesBodySchema = z.object({
     title: z.string(),
     content: z.string(),
+});
+
+const patchUpdateUserXpQuerySchema = z.object({
+    xp: z.preprocess((value) => {
+        if (typeof value === 'string') return Number(value);
+        return value;
+    }, z.number().int().positive()),
 });
 
 const postSupportEmailBodySchema = z.object({
@@ -161,6 +173,7 @@ export type TUpdateUserCoverBody = z.infer<typeof patchUpdateUserCoverBodySchema
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
 export type TUpdateCampaignNotesQuery = z.infer<typeof patchUpdateCampaignNotesQuerySchema>;
 export type TUpdateCampaignNotesBody = z.infer<typeof patchUpdateCampaignNotesBodySchema>;
+export type TUpdateUserXpQuery = z.infer<typeof patchUpdateUserXpQuerySchema>;
 export type TPostSupportEmailBody = z.infer<typeof postSupportEmailBodySchema>;
 export type TRegisterDonationQuery = z.infer<typeof postDonateQuerySchema>;
 export type TRegisterDonationBody = z.infer<typeof postDonateBodySchema>;
@@ -218,6 +231,9 @@ export default (): IUsersSchemas => ({
     patchUpdateCampaignNotes: {
         query: patchUpdateCampaignNotesQuerySchema,
         body: patchUpdateCampaignNotesBodySchema,
+    },
+    patchUpdateUserXp: {
+        query: patchUpdateUserXpQuerySchema,
     },
     patchAcceptFriend: {
         query: patchAcceptFriendQuerySchema,

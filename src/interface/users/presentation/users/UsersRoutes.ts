@@ -320,6 +320,17 @@ export default class UsersRoutes {
             // PATCH
             {
                 method: 'patch',
+                path: '/:id/update/xp',
+                controller: this.usersController.updateUserXp,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.usersSchemas.patchUpdateUserXp.query }],
+                    tag: 'management',
+                    description: desc.updateUserXp,
+                },
+            },
+            {
+                method: 'patch',
                 path: '/:id/messages/:messageId/mark',
                 controller: this.usersController.markMessageAsRead,
                 options: {

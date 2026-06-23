@@ -15,7 +15,8 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
         campaign: Campaign,
         dungeonMasterId: string,
         playerId: string,
-        userDetails: any;
+        userDetails: any,
+        dungeonMasterDetails: any;
 
     const logger = (): void => {};
 
@@ -28,6 +29,8 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
                 userDetails = UsersDomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = playerId;
                 userDetails.gameInfo.campaignsJoinedAmount = 1;
+                dungeonMasterDetails = UsersDomainDataFaker.generateUserDetailsJSON()[0];
+                dungeonMasterDetails.userId = dungeonMasterId;
 
                 campaign.campaignPlayers = [
                     {
@@ -50,8 +53,12 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
                 };
 
                 usersDetailsRepository = {
-                    findOne: sinon.stub().resolves(userDetails),
-                    update: sinon.stub().resolves(userDetails),
+                    findOne: sinon.stub().callsFake(async ({ userId }) => {
+                        if (userId === playerId) return userDetails;
+                        if (userId === dungeonMasterId) return dungeonMasterDetails;
+                        return null;
+                    }),
+                    update: sinon.stub().callsFake(async ({ payload }) => payload),
                 };
 
                 confirmCampaignPlayerService = new ConfirmCampaignPlayerService({
@@ -75,7 +82,67 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
                         .hasNested('gameInfo.campaignsJoinedAmount', 2)
                         .and(sinon.match.hasNested('gameInfo.badges', ['enthusiast'])),
                 });
+                expect(userDetails.xp).to.equal(600);
+                expect(dungeonMasterDetails.xp).to.equal(50);
             });
+        });
+
+        it('should award the dm and a distinct approver separately', async () => {
+            campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+            dungeonMasterId = newUUID();
+            const approverId = newUUID();
+            playerId = newUUID();
+            userDetails = UsersDomainDataFaker.generateUserDetailsJSON()[0];
+            userDetails.userId = playerId;
+            userDetails.gameInfo.campaignsJoinedAmount = 0;
+            dungeonMasterDetails = UsersDomainDataFaker.generateUserDetailsJSON()[0];
+            dungeonMasterDetails.userId = dungeonMasterId;
+            const approverDetails = UsersDomainDataFaker.generateUserDetailsJSON()[0];
+            approverDetails.userId = approverId;
+
+            campaign.campaignPlayers = [
+                {
+                    userId: dungeonMasterId,
+                    characterIds: [],
+                    role: 'dungeon_master',
+                    status: 'active',
+                },
+                {
+                    userId: approverId,
+                    characterIds: [],
+                    role: 'admin_player',
+                    status: 'active',
+                },
+                {
+                    userId: playerId,
+                    characterIds: [],
+                    role: 'player',
+                    status: 'pending',
+                },
+            ] as Player[];
+
+            confirmCampaignPlayerService = new ConfirmCampaignPlayerService({
+                campaignsRepository: {
+                    findOne: sinon.stub().resolves(campaign),
+                    update: sinon.stub().callsFake(async ({ payload }) => payload),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().callsFake(async ({ userId }) => {
+                        if (userId === playerId) return userDetails;
+                        if (userId === dungeonMasterId) return dungeonMasterDetails;
+                        if (userId === approverId) return approverDetails;
+                        return null;
+                    }),
+                    update: sinon.stub().callsFake(async ({ payload }) => payload),
+                },
+                logger,
+            } as any);
+
+            await confirmCampaignPlayerService.confirm(campaign.campaignId as string, approverId, playerId);
+
+            expect(userDetails.xp).to.equal(200);
+            expect(dungeonMasterDetails.xp).to.equal(50);
+            expect(approverDetails.xp).to.equal(50);
         });
 
         context('When the target player is already active', () => {

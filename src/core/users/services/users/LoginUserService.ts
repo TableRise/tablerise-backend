@@ -3,6 +3,12 @@ import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { JWTResponse } from 'src/types/api/users/methods';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class LoginUserService {
     private readonly usersDetailsRepository;
@@ -29,6 +35,15 @@ export default class LoginUserService {
             userId: tokenData.userId,
         });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        const progressionSnapshot = snapshotProgression(userDetails);
+        addXp(userDetails, USER_XP_EVENTS.LOGIN);
+        finalizeProgression(userDetails, progressionSnapshot);
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
+        });
 
         tokenData.fullname = userDetails.firstName + ' ' + userDetails.lastName;
 

@@ -772,6 +772,9 @@
                   "description": {
                     "type": "string"
                   },
+                  "mainHistory": {
+                    "type": "string"
+                  },
                   "visibility": {
                     "type": "string",
                     "enum": [
@@ -820,11 +823,11 @@
                     "properties": {
                       "shopOn": {
                         "type": "boolean"
+                      },
+                      "playOn": {
+                        "type": "boolean"
                       }
-                    },
-                    "required": [
-                      "shopOn"
-                    ]
+                    }
                   }
                 }
               }
