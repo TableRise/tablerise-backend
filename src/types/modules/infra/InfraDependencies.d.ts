@@ -3,6 +3,7 @@ import { ImageStorageClientContract } from 'src/types/modules/infra/clients/Imag
 import { UsersRepositoryContract } from 'src/types/modules/infra/repositories/users/UsersRepository';
 import { UsersDetailsRepositoryContract } from 'src/types/modules/infra/repositories/users/UsersDetailsRepository';
 import { UpdateTimestampRepositoryContract } from 'src/types/modules/infra/repositories/users/UpdateTimestampRepository';
+import { InternalRepositoryContract } from 'src/types/modules/infra/repositories/internal/InternalRepository';
 import { CampaignsRepositoryContract } from './repositories/campaigns/CampaignsRepository';
 import { CharactersRepositoryContract } from './repositories/character/CharactersRepository';
 
@@ -12,6 +13,7 @@ export default interface InfraDependencies {
     usersRepositoryContract: UsersRepositoryContract;
     usersDetailsRepositoryContract: UsersDetailsRepositoryContract;
     updateTimestampRepositoryContract: UpdateTimestampRepositoryContract;
+    internalRepositoryContract: InternalRepositoryContract;
 
     // <--------- CAMPAIGN DOMAIN --------->
     socketIOContract: SocketIOContract;

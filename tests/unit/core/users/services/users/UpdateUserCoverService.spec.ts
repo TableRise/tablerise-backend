@@ -7,6 +7,13 @@ import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     it('should upload and persist the new cover image', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
@@ -26,9 +33,11 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         const imageStorageClient = {
             upload: sinon.stub().resolves(uploaded),
         };
+        const internalRepository = createInternalRepository();
         const service = new UpdateUserCoverService({
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -43,6 +52,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
             payload: userDetails,
         });
         expect(userDetails.cover).to.deep.equal(uploaded);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         expect(userDetails.xp).to.equal(100);
     });
 
@@ -54,9 +64,11 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         const imageStorageClient = {
             upload: sinon.stub(),
         };
+        const internalRepository = createInternalRepository();
         const service = new UpdateUserCoverService({
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -89,12 +101,14 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         const imageStorageClient = {
             upload: sinon.stub().resolves(uploaded),
         };
+        const internalRepository = createInternalRepository();
         const service = new UpdateUserCoverService({
             usersDetailsRepository: {
                 findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub().resolves(),
             },
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -106,16 +120,17 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.cover).to.deep.equal(uploaded);
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         expect(userDetails.xp).to.equal(100);
     });
 
-    it('should not award first-cover xp when the user already had a cover', async () => {
+    it('should queue the previous cover deleteUrl when replacing an existing cover', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         userDetails.cover = {
             id: 'existing-cover',
             link: 'https://img.bb/existing-cover',
             uploadDate: new Date().toISOString(),
-            deleteUrl: '',
+            deleteUrl: 'https://img.bb/delete-existing-cover',
             title: '',
             request: { success: true, status: 200 },
         } as any;
@@ -128,6 +143,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
             request: { success: true, status: 200 },
         };
 
+        const internalRepository = createInternalRepository();
         const service = new UpdateUserCoverService({
             usersDetailsRepository: {
                 findOne: sinon.stub().resolves(userDetails),
@@ -136,6 +152,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
             imageStorageClient: {
                 upload: sinon.stub().resolves(uploaded),
             },
+            internalRepository,
             logger,
         } as any);
 
@@ -145,6 +162,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         });
 
         expect(userDetails.xp).to.equal(0);
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-existing-cover']);
     });
 
     it('should reject cover updates without an image file or imageObject', async () => {
@@ -152,12 +170,14 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         const imageStorageClient = {
             upload: sinon.stub(),
         };
+        const internalRepository = createInternalRepository();
         const service = new UpdateUserCoverService({
             usersDetailsRepository: {
                 findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub(),
             },
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 

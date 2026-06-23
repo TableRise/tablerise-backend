@@ -11,17 +11,20 @@ export default class UpdateCharacterPictureService {
     private readonly charactersRepository;
     private readonly usersDetailsRepository;
     private readonly imageStorageClient;
+    private readonly internalRepository;
     private readonly logger;
 
     constructor({
         charactersRepository,
         usersDetailsRepository,
         imageStorageClient,
+        internalRepository,
         logger,
     }: CharacterCoreDependencies['updateCharacterPictureOperationService']) {
         this.charactersRepository = charactersRepository;
         this.usersDetailsRepository = usersDetailsRepository;
         this.imageStorageClient = imageStorageClient;
+        this.internalRepository = internalRepository;
         this.logger = logger;
 
         this.uploadPicture = this.uploadPicture.bind(this);
@@ -45,6 +48,7 @@ export default class UpdateCharacterPictureService {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
         }
+        this.internalRepository.addImageForDeletion(characterInDb.picture);
         characterInDb.picture = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });

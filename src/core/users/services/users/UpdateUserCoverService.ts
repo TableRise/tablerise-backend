@@ -15,15 +15,18 @@ import {
 export default class UpdateUserCoverService {
     private readonly usersDetailsRepository;
     private readonly imageStorageClient;
+    private readonly internalRepository;
     private readonly logger;
 
     constructor({
         usersDetailsRepository,
         imageStorageClient,
+        internalRepository,
         logger,
     }: UserCoreDependencies['updateUserCoverServiceContract']) {
         this.usersDetailsRepository = usersDetailsRepository;
         this.imageStorageClient = imageStorageClient;
+        this.internalRepository = internalRepository;
         this.logger = logger;
 
         this.update = this.update.bind(this);
@@ -49,6 +52,7 @@ export default class UpdateUserCoverService {
             });
         }
         const shouldAwardFirstCoverXp = userDetails.cover == null;
+        this.internalRepository.addImageForDeletion(userDetails.cover);
         userDetails.cover = uploaded;
 
         if (imageObject === undefined) {

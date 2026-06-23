@@ -12,17 +12,20 @@ export default class UpdateCampaignCoverService {
     private readonly campaignsRepository;
     private readonly usersDetailsRepository;
     private readonly imageStorageClient;
+    private readonly internalRepository;
     private readonly logger;
 
     constructor({
         campaignsRepository,
         usersDetailsRepository,
         imageStorageClient,
+        internalRepository,
         logger,
     }: CampaignCoreDependencies['updateCampaignCoverServiceContract']) {
         this.campaignsRepository = campaignsRepository;
         this.usersDetailsRepository = usersDetailsRepository;
         this.imageStorageClient = imageStorageClient;
+        this.internalRepository = internalRepository;
         this.logger = logger;
     }
 
@@ -52,6 +55,7 @@ export default class UpdateCampaignCoverService {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
         }
+        this.internalRepository.addImageForDeletion(campaign.cover);
         campaign.cover = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });

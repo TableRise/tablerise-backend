@@ -9,6 +9,13 @@ import { DEFAULT_USER_PROFILE_PICTURE_LINK } from 'src/domains/users/helpers/Use
 
 describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     const buildUploaded = () => ({
         id: 'image-123',
@@ -43,11 +50,13 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         const imageStorageClient = {
             upload: sinon.stub().resolves(uploaded),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new PictureProfileService({
             usersRepository,
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -62,6 +71,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             payload: userDetails,
         });
         expect(userDetails.gallery.at(-1)).to.deep.equal(uploaded);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         expect(userDetails.xp).to.equal(100);
         expect(result.picture).to.deep.equal(uploaded);
     });
@@ -78,11 +88,13 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         const imageStorageClient = {
             upload: sinon.stub(),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new PictureProfileService({
             usersRepository,
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -116,6 +128,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         const imageStorageClient = {
             upload: sinon.stub().resolves(uploaded),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new PictureProfileService({
             usersRepository: {
@@ -127,6 +140,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 update: sinon.stub().resolves(userDetails),
             },
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -137,6 +151,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         expect(userDetails.xp).to.equal(100);
     });
 
@@ -163,6 +178,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             imageStorageClient: {
                 upload: sinon.stub(),
             },
+            internalRepository: createInternalRepository(),
             logger,
         } as any);
 
@@ -186,6 +202,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         const imageStorageClient = {
             upload: sinon.stub(),
         };
+        const internalRepository = createInternalRepository();
         const service = new PictureProfileService({
             usersRepository: {
                 findOne: sinon.stub().resolves(user),
@@ -196,6 +213,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 update: sinon.stub(),
             },
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -235,10 +253,12 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             findOne: sinon.stub().resolves(userDetails),
             update: sinon.stub().resolves(userDetails),
         };
+        const internalRepository = createInternalRepository();
         const service = new PictureProfileService({
             usersRepository,
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -250,13 +270,22 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         expect(result.picture).to.deep.equal(uploaded);
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(usersDetailsRepository.update).to.not.have.been.called();
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
-    it('should allow updates when the user has no profile picture yet', async () => {
+    it('should queue the previous profile picture deleteUrl when replacing it', async () => {
         const user = DomainDataFaker.generateUsersJSON()[0];
-        user.picture = undefined as any;
+        user.picture = {
+            id: 'existing',
+            link: 'https://img.bb/existing',
+            uploadDate: '2026-01-01T00:00:00.000Z',
+            title: '',
+            deleteUrl: 'https://img.bb/delete-existing',
+            request: { success: true, status: 200 },
+        } as User['picture'];
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         const uploaded = buildUploaded();
+        const internalRepository = createInternalRepository();
         const service = new PictureProfileService({
             usersRepository: {
                 findOne: sinon.stub().resolves(user),
@@ -269,6 +298,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             imageStorageClient: {
                 upload: sinon.stub(),
             },
+            internalRepository,
             logger,
         } as any);
 
@@ -279,5 +309,38 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
         expect(result.picture).to.deep.equal(uploaded);
         expect(userDetails.xp).to.equal(0);
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-existing']);
+    });
+
+    it('should allow updates when the user has no profile picture yet', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = undefined as any;
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = buildUploaded();
+        const internalRepository = createInternalRepository();
+        const service = new PictureProfileService({
+            usersRepository: {
+                findOne: sinon.stub().resolves(user),
+                update: sinon.stub().resolves({ ...user, picture: uploaded }),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(userDetails),
+            },
+            imageStorageClient: {
+                upload: sinon.stub(),
+            },
+            internalRepository,
+            logger,
+        } as any);
+
+        const result = await service.uploadPicture({
+            userId: user.userId,
+            imageObject: uploaded,
+        });
+
+        expect(result.picture).to.deep.equal(uploaded);
+        expect(userDetails.xp).to.equal(0);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 });

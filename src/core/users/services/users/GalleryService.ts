@@ -7,10 +7,16 @@ import { ensureUserDetailCollections } from 'src/domains/users/helpers/UserDetai
 
 export default class GalleryService {
     private readonly usersDetailsRepository;
+    private readonly internalRepository;
     private readonly logger;
 
-    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['galleryServiceContract']) {
+    constructor({
+        usersDetailsRepository,
+        internalRepository,
+        logger,
+    }: UserCoreDependencies['galleryServiceContract']) {
         this.usersDetailsRepository = usersDetailsRepository;
+        this.internalRepository = internalRepository;
         this.logger = logger;
     }
 
@@ -50,6 +56,7 @@ export default class GalleryService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         ensureUserDetailCollections(userDetails);
 
+        const imageToRemove = userDetails.gallery.find((entry) => entry.id === imageId);
         const previousLength = userDetails.gallery.length;
         userDetails.gallery = userDetails.gallery.filter((entry) => entry.id !== imageId);
 
@@ -60,6 +67,8 @@ export default class GalleryService {
                 name: getErrorName(HttpStatusCode.NOT_FOUND),
             });
         }
+
+        this.internalRepository.addImageForDeletion(imageToRemove);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
