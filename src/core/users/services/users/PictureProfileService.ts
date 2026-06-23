@@ -19,17 +19,20 @@ export default class PictureProfileService {
     private readonly usersRepository;
     private readonly usersDetailsRepository;
     private readonly imageStorageClient;
+    private readonly internalRepository;
     private readonly logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
         imageStorageClient,
+        internalRepository,
         logger,
     }: UserCoreDependencies['pictureProfileServiceContract']) {
         this.usersRepository = usersRepository;
         this.usersDetailsRepository = usersDetailsRepository;
         this.imageStorageClient = imageStorageClient;
+        this.internalRepository = internalRepository;
         this.logger = logger;
 
         this.uploadPicture = this.uploadPicture.bind(this);
@@ -69,6 +72,7 @@ export default class PictureProfileService {
             });
         }
         const shouldAwardFirstCustomPictureXp = userInDb.picture?.link === DEFAULT_USER_PROFILE_PICTURE_LINK;
+        this.internalRepository.addImageForDeletion(userInDb.picture);
         userInDb.picture = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });

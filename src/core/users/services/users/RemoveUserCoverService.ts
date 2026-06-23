@@ -4,10 +4,16 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 
 export default class RemoveUserCoverService {
     private readonly usersDetailsRepository;
+    private readonly internalRepository;
     private readonly logger;
 
-    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['removeUserCoverServiceContract']) {
+    constructor({
+        usersDetailsRepository,
+        internalRepository,
+        logger,
+    }: UserCoreDependencies['removeUserCoverServiceContract']) {
         this.usersDetailsRepository = usersDetailsRepository;
+        this.internalRepository = internalRepository;
         this.logger = logger;
 
         this.remove = this.remove.bind(this);
@@ -20,6 +26,7 @@ export default class RemoveUserCoverService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
+        this.internalRepository.addImageForDeletion(userDetails.cover);
         userDetails.cover = null as unknown as typeof userDetails.cover;
 
         await this.usersDetailsRepository.update({

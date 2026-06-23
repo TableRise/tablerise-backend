@@ -21,6 +21,7 @@ import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
 import MessageCrypto from './domains/users/helpers/MessageCrypto';
+import InternalRepository from './infra/repositories/internal/InternalRepository';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -76,6 +77,7 @@ export default function setup(
 
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),
+        internalRepository: asClass(InternalRepository).singleton(),
 
         // #Connections
         socketIO: asClass(SocketIO).singleton(),

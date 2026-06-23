@@ -7,9 +7,17 @@ import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     it('should upload the campaign cover and append it to the uploader gallery', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.cover = null as any;
         const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const uploaded = {
             id: 'cover-1',
@@ -19,6 +27,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
             deleteUrl: '',
             request: { success: true, status: 200 },
         };
+        const internalRepository = createInternalRepository();
 
         const service = new UpdateCampaignCoverService({
             campaignsRepository: {
@@ -32,6 +41,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
             imageStorageClient: {
                 upload: sinon.stub().resolves(uploaded),
             },
+            internalRepository,
             logger,
         } as any);
 
@@ -43,10 +53,12 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
 
         expect(updated.cover).to.deep.equal(uploaded);
         expect(userDetails.gallery).to.deep.equal([uploaded]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
     it('should use the provided imageObject without calling image storage', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.cover = null as any;
         const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const uploaded = {
             id: 'cover-1',
@@ -59,6 +71,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
         const imageStorageClient = {
             upload: sinon.stub().resolves(uploaded),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new UpdateCampaignCoverService({
             campaignsRepository: {
@@ -70,6 +83,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
                 update: sinon.stub().resolves(userDetails),
             },
             imageStorageClient,
+            internalRepository,
             logger,
         } as any);
 
@@ -82,6 +96,53 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(updated.cover).to.deep.equal(uploaded);
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
+    });
+
+    it('should queue the previous campaign cover deleteUrl when replacing it', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.cover = {
+            id: 'old-cover',
+            link: 'https://img.bb/old-cover',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: 'https://img.bb/delete-old-cover',
+            request: { success: true, status: 200 },
+        } as any;
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
+        const uploaded = {
+            id: 'cover-1',
+            link: 'https://img.bb/cover',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const internalRepository = createInternalRepository();
+
+        const service = new UpdateCampaignCoverService({
+            campaignsRepository: {
+                findOne: sinon.stub().resolves(campaign),
+                update: sinon.stub().resolves(campaign),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(userDetails),
+            },
+            imageStorageClient: {
+                upload: sinon.stub().resolves(uploaded),
+            },
+            internalRepository,
+            logger,
+        } as any);
+
+        await service.updateCover({
+            campaignId: campaign.campaignId,
+            userId: 'user-1',
+            picture: { originalname: 'cover.png' } as FileObject,
+        });
+
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-old-cover']);
     });
 
     it('should reject cover updates without a picture or imageObject', async () => {
@@ -98,6 +159,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
             imageStorageClient: {
                 upload: sinon.stub(),
             },
+            internalRepository: createInternalRepository(),
             logger,
         } as any);
 
@@ -123,6 +185,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
             campaignsRepository,
             usersDetailsRepository: {},
             imageStorageClient: {},
+            internalRepository: createInternalRepository(),
             logger,
         } as any);
 

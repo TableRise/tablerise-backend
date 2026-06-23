@@ -6,15 +6,32 @@ import RemoveUserCoverService from 'src/core/users/services/users/RemoveUserCove
 
 describe('Core :: Users :: Services :: Users :: RemoveUserCoverService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     it('should null the cover and persist the user details', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        userDetails.cover = {
+            id: 'cover-1',
+            link: 'https://img.bb/cover-1',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: 'https://img.bb/delete-cover-1',
+            request: { success: true, status: 200 },
+        } as any;
         const usersDetailsRepository = {
             findOne: sinon.stub().resolves(userDetails),
             update: sinon.stub().resolves(),
         };
+        const internalRepository = createInternalRepository();
         const service = new RemoveUserCoverService({
             usersDetailsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -27,6 +44,7 @@ describe('Core :: Users :: Services :: Users :: RemoveUserCoverService', () => {
             payload: userDetails,
         });
         expect(userDetails.cover).to.equal(null);
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-cover-1']);
     });
 
     it('should throw when the user details do not exist', async () => {
@@ -36,6 +54,7 @@ describe('Core :: Users :: Services :: Users :: RemoveUserCoverService', () => {
         };
         const service = new RemoveUserCoverService({
             usersDetailsRepository,
+            internalRepository: createInternalRepository(),
             logger,
         } as any);
 

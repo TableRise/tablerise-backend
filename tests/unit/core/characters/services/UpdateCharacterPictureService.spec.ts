@@ -7,6 +7,13 @@ import { UpdateCharacterPicturePayload } from 'src/types/api/characters/http/pay
 
 describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     it('should update the character picture and append it to the uploader gallery', async () => {
         const payload: UpdateCharacterPicturePayload = {
@@ -39,12 +46,14 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
             update: Sinon.stub().resolves(userDetails),
         };
         const imageStorageClient = { upload: Sinon.stub().resolves(uploaded) };
+        const internalRepository = createInternalRepository();
 
         const service = new UpdateCharacterPictureService({
             logger,
             charactersRepository,
             usersDetailsRepository,
             imageStorageClient,
+            internalRepository,
         } as any);
 
         await service.uploadPicture(payload);
@@ -56,6 +65,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
             payload: userDetails,
         });
         expect(userDetails.gallery).to.deep.equal([uploaded]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         expect(charactersRepository.update).to.have.been.calledWith({
             query: { characterId: 'character-1' },
             payload: Sinon.match.object,
@@ -73,6 +83,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
                 findOne: Sinon.stub(),
                 update: Sinon.stub(),
             },
+            internalRepository: createInternalRepository(),
             imageStorageClient: { upload: Sinon.stub() },
         } as any);
 
@@ -98,6 +109,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
         };
         const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const imageStorageClient = { upload: Sinon.stub().resolves(uploaded) };
+        const internalRepository = createInternalRepository();
         const service = new UpdateCharacterPictureService({
             logger,
             charactersRepository: {
@@ -112,6 +124,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
                 update: Sinon.stub().resolves({}),
             },
             imageStorageClient,
+            internalRepository,
         } as any);
 
         await service.uploadPicture({
@@ -122,6 +135,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
     it('should reject character picture updates without an image file or imageObject', async () => {
@@ -138,6 +152,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
                 findOne: Sinon.stub(),
                 update: Sinon.stub(),
             },
+            internalRepository: createInternalRepository(),
             imageStorageClient: { upload: Sinon.stub() },
         } as any);
 
@@ -176,6 +191,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
                 findOne: Sinon.stub().resolves(null),
                 update: Sinon.stub(),
             },
+            internalRepository: createInternalRepository(),
             imageStorageClient: { upload: Sinon.stub() },
         } as any);
 
@@ -191,5 +207,50 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
             expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
             expect(err.message).to.equal('User does not exist');
         }
+    });
+
+    it('should queue the previous character picture deleteUrl when replacing it', async () => {
+        const uploaded = {
+            id: 'image-1',
+            link: 'https://img.bb/character',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
+        const internalRepository = createInternalRepository();
+
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository: {
+                findOne: Sinon.stub().resolves({
+                    picture: {
+                        id: 'old-image',
+                        link: 'https://img.bb/old-character',
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: 'https://img.bb/delete-old-character',
+                        request: { success: true, status: 200 },
+                    },
+                    characterId: 'character-1',
+                }),
+                update: Sinon.stub().resolves({}),
+            },
+            usersDetailsRepository: {
+                findOne: Sinon.stub().resolves(userDetails),
+                update: Sinon.stub().resolves({}),
+            },
+            imageStorageClient: { upload: Sinon.stub().resolves(uploaded) },
+            internalRepository,
+        } as any);
+
+        await service.uploadPicture({
+            characterId: 'character-1',
+            userId: 'user-1',
+            image: {} as FileObject,
+        });
+
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-old-character']);
     });
 });

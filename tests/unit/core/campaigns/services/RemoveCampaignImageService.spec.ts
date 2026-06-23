@@ -4,21 +4,39 @@ import RemoveCampaignImageService from 'src/core/campaigns/services/RemoveCampai
 
 describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
 
     it('should remove the campaign cover', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.cover = {
+            id: 'cover-1',
+            link: 'https://img.bb/cover-1',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: 'https://img.bb/delete-cover-1',
+            request: { success: true, status: 200 },
+        } as any;
         const campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
         const updated = await service.removeCover({ campaignId: campaign.campaignId as string });
 
         expect((updated as any).cover).to.equal(null);
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-cover-1']);
     });
 
     it('should remove a map image and clear activeMapId when it no longer exists', async () => {
@@ -34,9 +52,11 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
             findOne: sinon.stub().resolves(campaign),
             update: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -47,13 +67,14 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
 
         expect(updated.matchData.mapImages).to.have.lengthOf(1);
         expect((updated.matchData as any).state.activeMapId).to.equal(null);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
-    it('should preserve activeMapId when another matching map still exists', async () => {
+    it('should queue removed match map deleteUrls', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
         campaign.matchData.mapImages = [
-            { id: 'map-1', link: 'https://map-1' },
-            { id: 'map-2', link: 'https://map-2' },
+            { id: 'map-1', link: 'https://map-1', deleteUrl: 'https://img.bb/delete-map-1' },
+            { id: 'map-2', link: 'https://map-2', deleteUrl: 'https://img.bb/delete-map-2' },
         ] as any;
         (campaign.matchData as any).state = (campaign.matchData as any).state ?? {};
         (campaign.matchData as any).state.activeMapId = 'map-2';
@@ -61,9 +82,11 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         const campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -73,6 +96,7 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         });
 
         expect((updated.matchData as any).state.activeMapId).to.equal('map-2');
+        expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-map-1']);
     });
 
     it('should skip map removal logic when matchData is missing', async () => {
@@ -83,9 +107,11 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         const campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -95,6 +121,7 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         });
 
         expect(updated.matchData).to.equal(null);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
     it('should preserve the state when there is no active map selected', async () => {
@@ -105,9 +132,11 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         const campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -117,6 +146,7 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         });
 
         expect((updated.matchData as any).state.activeMapId).to.equal(undefined);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
     it('should preserve map removal when state is missing entirely', async () => {
@@ -127,9 +157,11 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
         const campaignsRepository = {
             findOne: sinon.stub().resolves(campaign),
         };
+        const internalRepository = createInternalRepository();
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository,
             logger,
         } as any);
 
@@ -140,6 +172,7 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
 
         expect(updated.matchData.mapImages).to.have.lengthOf(0);
         expect((updated.matchData as any).state).to.equal(undefined);
+        expect(internalRepository.imagesForDeletion).to.deep.equal([]);
     });
 
     it('should persist the updated campaign', async () => {
@@ -150,6 +183,7 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignImageService', () => {
 
         const service = new RemoveCampaignImageService({
             campaignsRepository,
+            internalRepository: createInternalRepository(),
             logger,
         } as any);
 

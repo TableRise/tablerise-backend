@@ -1,6 +1,7 @@
 import UpdateCharacterPictureService from 'src/core/characters/services/UpdateCharacterPictureService';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
+import InternalRepository from 'src/infra/repositories/internal/InternalRepository';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/shared/logger';
 
@@ -13,5 +14,6 @@ export interface UpdateCharacterPictureOperationService {
     charactersRepository: CharactersRepository;
     usersDetailsRepository: UsersDetailsRepository;
     imageStorageClient: ImageStorageClient;
+    internalRepository: InternalRepository;
     logger: Logger;
 }

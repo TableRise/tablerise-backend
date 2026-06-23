@@ -8,6 +8,13 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => {
     const logger = (): void => {};
+    const createInternalRepository = () => ({
+        imagesForDeletion: [] as string[],
+        addImageForDeletion(image?: { deleteUrl?: string; delete_url?: string } | null) {
+            const deleteUrl = image?.deleteUrl ?? image?.delete_url;
+            if (deleteUrl) this.imagesForDeletion.push(deleteUrl);
+        },
+    });
     const encryptedMessagePayload = {
         encryptedTitle: 'encrypted-title:auth-tag-title',
         encryptedContent: 'encrypted-content:auth-tag-content',
@@ -286,15 +293,18 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub().resolves(userDetails),
             };
+            const internalRepository = createInternalRepository();
 
             const service = new GalleryService({
                 usersDetailsRepository,
+                internalRepository,
                 logger,
             } as any);
 
             expect((await service.getById({ userId: userDetails.userId, imageId: 'img-1' })).id).to.equal('img-1');
             await service.remove({ userId: userDetails.userId, imageId: 'img-1' });
             expect(userDetails.gallery).to.have.lengthOf(0);
+            expect(internalRepository.imagesForDeletion).to.deep.equal([]);
         });
 
         it('should list all gallery images', async () => {
@@ -315,6 +325,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                     findOne: sinon.stub().resolves(userDetails),
                     update: sinon.stub(),
                 },
+                internalRepository: createInternalRepository(),
                 logger,
             } as any);
 
@@ -329,6 +340,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                     findOne: sinon.stub().resolves(userDetails),
                     update: sinon.stub(),
                 },
+                internalRepository: createInternalRepository(),
                 logger,
             } as any);
 
@@ -349,6 +361,34 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
                 expect(err.message).to.equal('Gallery image does not exist');
             }
+        });
+
+        it('should queue the removed gallery image deleteUrl', async () => {
+            const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            userDetails.gallery = [
+                {
+                    id: 'img-1',
+                    title: '',
+                    link: 'https://img.bb/1',
+                    uploadDate: new Date().toISOString(),
+                    deleteUrl: 'https://img.bb/delete-1',
+                    request: { success: true, status: 200 },
+                },
+            ];
+            const internalRepository = createInternalRepository();
+
+            const service = new GalleryService({
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(userDetails),
+                },
+                internalRepository,
+                logger,
+            } as any);
+
+            await service.remove({ userId: userDetails.userId, imageId: 'img-1' });
+
+            expect(internalRepository.imagesForDeletion).to.deep.equal(['https://img.bb/delete-1']);
         });
     });
 

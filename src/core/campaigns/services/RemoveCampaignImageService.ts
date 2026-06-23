@@ -4,10 +4,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class RemoveCampaignImageService {
     private readonly campaignsRepository;
+    private readonly internalRepository;
     private readonly logger;
 
-    constructor({ campaignsRepository, logger }: CampaignCoreDependencies['removeCampaignImageServiceContract']) {
+    constructor({
+        campaignsRepository,
+        internalRepository,
+        logger,
+    }: CampaignCoreDependencies['removeCampaignImageServiceContract']) {
         this.campaignsRepository = campaignsRepository;
+        this.internalRepository = internalRepository;
         this.logger = logger;
     }
 
@@ -16,6 +22,7 @@ export default class RemoveCampaignImageService {
         this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
+        this.internalRepository.addImageForDeletion(campaign.cover);
         (campaign as unknown as { cover: ImageObject | null }).cover = null;
 
         return campaign;
@@ -27,9 +34,11 @@ export default class RemoveCampaignImageService {
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         if (campaign.matchData) {
+            const removedImages = campaign.matchData.mapImages.filter((img: ImageObject) => img.link === imageUrl);
             campaign.matchData.mapImages = campaign.matchData.mapImages.filter(
                 (img: ImageObject) => img.link !== imageUrl
             );
+            removedImages.forEach((image) => this.internalRepository.addImageForDeletion(image));
 
             const activeMapId = (campaign.matchData as any).state?.activeMapId;
 
