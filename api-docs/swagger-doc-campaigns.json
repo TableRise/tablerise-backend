@@ -823,11 +823,11 @@
                     "properties": {
                       "shopOn": {
                         "type": "boolean"
+                      },
+                      "playOn": {
+                        "type": "boolean"
                       }
-                    },
-                    "required": [
-                      "shopOn"
-                    ]
+                    }
                   }
                 }
               }

@@ -3,6 +3,12 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { CampaignJournalPost, publishmentPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 const CATEGORIES_ALLOWED_FOR_PLAYER = ['players', 'characters-players'];
 const CATEGORIES_ALLOWED_FOR_MASTER = ['master', 'characters-master', 'environment', 'world-news', 'announcements'];
@@ -17,10 +23,16 @@ const CATEGORIES_ALLOWED_FOR_ADMIN = [
 
 export default class PublishmentService {
     private readonly campaignsRepository;
+    private readonly usersDetailsRepository;
     private readonly logger;
 
-    constructor({ campaignsRepository, logger }: CampaignCoreDependencies['publishmentServiceContract']) {
+    constructor({
+        campaignsRepository,
+        usersDetailsRepository,
+        logger,
+    }: CampaignCoreDependencies['publishmentServiceContract']) {
         this.campaignsRepository = campaignsRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
         this.logger = logger;
     }
 
@@ -50,12 +62,26 @@ export default class PublishmentService {
         return campaignInDb;
     }
 
-    async save(campaign: Campaign): Promise<Campaign> {
+    async save(campaign: Campaign, userId: string): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.save.name}`;
         this.logger('info', callName);
-        return this.campaignsRepository.update({
+        const savedCampaign = await this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
+
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        const progressionSnapshot = snapshotProgression(userDetails);
+        addXp(userDetails, USER_XP_EVENTS.CAMPAIGN_JOURNAL_POST);
+        finalizeProgression(userDetails, progressionSnapshot);
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
+        });
+
+        return savedCampaign;
     }
 }

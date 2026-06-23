@@ -808,6 +808,9 @@
                   },
                   "nickname": {
                     "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -1301,7 +1304,13 @@
                   "birthday": {
                     "type": "string"
                   },
+                  "gender": {
+                    "type": "string"
+                  },
                   "biography": {
+                    "type": "string"
+                  },
+                  "title": {
                     "type": "string"
                   }
                 }
@@ -1309,6 +1318,55 @@
             }
           }
         }
+      }
+    },
+    "/users/{id}/update/xp": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "xp",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add system-managed XP to the authenticated user and recalculate progression using the provided self route."
       }
     },
     "/users/{id}/messages/{messageId}/mark": {

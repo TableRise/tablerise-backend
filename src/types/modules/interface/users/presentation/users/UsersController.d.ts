@@ -15,6 +15,7 @@ import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePassw
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
 import UpdateUserCoverOperation from 'src/core/users/operations/users/UpdateUserCoverOperation';
 import UpdateUserDetailsOperation from 'src/core/users/operations/users/UpdateUserDetailsOperation';
+import UpdateUserXpOperation from 'src/core/users/operations/users/UpdateUserXpOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
 import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
@@ -31,6 +32,7 @@ export interface UsersControllerContract {
     createUserOperation: CreateUserOperation;
     updateUserOperation: UpdateUserOperation;
     updateUserDetailsOperation: UpdateUserDetailsOperation;
+    updateUserXpOperation: UpdateUserXpOperation;
     verifyEmailOperation: VerifyEmailOperation;
     getUsersOperation: GetUsersOperation;
     getUserByIdOperation: GetUserByIdOperation;

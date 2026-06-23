@@ -9,6 +9,12 @@ import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/t
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import { awardNewbieBadge } from 'src/domains/users/helpers/BadgeAwardHandler';
+import {
+    DEFAULT_USER_TITLE,
+    finalizeProgression,
+    snapshotProgression,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class OAuthService {
     private readonly usersRepository;
@@ -72,6 +78,13 @@ export default class OAuthService {
             code: '',
         };
         userDetails.rank = 'bronze';
+        userDetails.title = DEFAULT_USER_TITLE;
+        userDetails.xp = 0;
+        userDetails.level = 1;
+        const progressionSnapshot = snapshotProgression(userDetails);
+        userDetails.gameInfo.userRegistered = 1;
+        awardNewbieBadge(userDetails);
+        finalizeProgression(userDetails, progressionSnapshot);
 
         return {
             userEnriched: user,

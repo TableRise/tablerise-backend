@@ -74,8 +74,13 @@ exports.mochaHooks = {
                 equipBoughtAmount: 0,
                 donateAmount: 0,
                 playersAdded: 0,
+                userRegistered: 0,
+                userLevelAmount: 0,
             },
             biography: 'Some bio',
+            title: 'Novato(a) na Taverna',
+            xp: 0,
+            level: 1,
             role: 'admin',
         };
 

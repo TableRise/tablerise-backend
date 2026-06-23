@@ -20,7 +20,7 @@ export default class UpdateUserDetailsService {
     private validateUpdateData(userDetails: UpdateUserDetailsPayload['payload']): void {
         const callName = `[${this.constructor.name}] - ${this.validateUpdateData.name}`;
         this.logger('info', callName);
-        const userDetailsForbiddenFields = ['userId', 'userDetailId', 'gameInfo', 'role', 'cover'];
+        const userDetailsForbiddenFields = ['userId', 'userDetailId', 'gameInfo', 'role', 'cover', 'xp', 'level'];
         const userDetailsKeys = Object.keys(userDetails);
 
         userDetailsForbiddenFields.forEach((key) => {

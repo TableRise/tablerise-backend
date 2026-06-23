@@ -2,6 +2,7 @@ import AddEquipmentService from 'src/core/characters/services/AddEquipmentServic
 import RemoveEquipmentService from 'src/core/characters/services/RemoveEquipmentService';
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
 import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
+import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface AddEquipmentOperationContract {
@@ -12,6 +13,7 @@ export interface AddEquipmentOperationContract {
 export interface AddEquipmentServiceContract {
     charactersRepository: CharactersRepository;
     dungeonsAndDragonsRepository: DungeonsAndDragonsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }
 

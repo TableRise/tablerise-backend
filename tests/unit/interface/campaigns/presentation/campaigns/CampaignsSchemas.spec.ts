@@ -104,6 +104,26 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             ).to.throw();
         });
 
+        it('should validate partial campaign configuration updates including playOn', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    configurations: {
+                        playOn: true,
+                    },
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.putUpdateCampaign.body.parse({
+                    configurations: {
+                        shopOn: false,
+                    },
+                })
+            ).to.not.throw();
+        });
+
         it('should validate update and delete journal post payloads', () => {
             const schemas = CampaignsSchemas();
 

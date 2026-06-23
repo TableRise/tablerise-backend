@@ -2,6 +2,7 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserDetailJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
+import { DEFAULT_USER_TITLE } from 'src/domains/users/helpers/UserProgression';
 
 function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDetail {
     return {
@@ -10,6 +11,7 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
         birthday: dataGenerator.birthday().toISOString(),
+        gender: 'female',
         gameInfo: {
             campaigns: [],
             characters: [],
@@ -22,9 +24,14 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             equipBoughtAmount: 0,
             donateAmount: 0,
             playersAdded: 0,
+            userRegistered: 0,
+            userLevelAmount: 0,
         },
         biography: dataGenerator.biography(),
+        title: DEFAULT_USER_TITLE,
         rank: 'bronze',
+        xp: 0,
+        level: 1,
         cover: {
             request: { success: true, status: 200 },
             id: '',

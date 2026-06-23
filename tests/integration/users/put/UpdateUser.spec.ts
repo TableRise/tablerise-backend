@@ -41,6 +41,8 @@ describe('When the user is updated', function () {
                 lastName: userDetails.lastName,
                 biography: userDetails.biography,
                 birthday: userDetails.birthday,
+                gender: 'non-binary',
+                title: 'Guild Master',
             };
         });
 
@@ -69,6 +71,21 @@ describe('When the user is updated', function () {
             expect(userDetailsUpdated.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
             expect(userDetailsUpdated.biography).to.not.be.equal(userBeforeUpdate.details.biography);
             expect(userDetailsUpdated.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
+            expect(userDetailsUpdated.gender).to.equal(userDetailsToUpdate.gender);
+            expect(userDetailsUpdated.title).to.equal(userDetailsToUpdate.title);
+        });
+
+        it('should reject manual xp and level updates while still allowing title changes', async () => {
+            const { body } = await requester()
+                .put(`/users/${user.userId}/update/details`)
+                .send({
+                    title: 'Guild Master',
+                    xp: 100,
+                    level: 2,
+                })
+                .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
+
+            expect(body.message).to.equal('Schema error');
         });
     });
 });

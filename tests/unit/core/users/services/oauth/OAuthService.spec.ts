@@ -89,6 +89,11 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 expect(userEnriched.userEnriched).to.have.property('password');
                 expect(userEnriched.userEnriched).to.have.property('twoFactorSecret');
                 expect(userEnriched.userEnriched).to.have.property('inProgress');
+                expect(userEnriched.userDetailsEnriched.gameInfo.badges).to.deep.equal(['newbie']);
+                expect(userEnriched.userDetailsEnriched.gameInfo.userRegistered).to.equal(1);
+                expect(userEnriched.userDetailsEnriched.gameInfo.userLevelAmount).to.equal(0);
+                expect(userEnriched.userDetailsEnriched.xp).to.equal(0);
+                expect(userEnriched.userDetailsEnriched.level).to.equal(1);
                 expect(userEnriched.userDetailsEnriched.rank).to.equal('bronze');
             });
         });

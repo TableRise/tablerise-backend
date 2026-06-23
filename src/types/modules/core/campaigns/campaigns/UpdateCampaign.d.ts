@@ -2,6 +2,7 @@ import UpdateCampaignService from 'src/core/campaigns/services/UpdateCampaignSer
 import SocketIO from 'src/infra/clients/SocketIO';
 import { Logger } from 'src/types/shared/logger';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
+import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 
 export interface UpdateCampaignOperationContract {
     updateCampaignService: UpdateCampaignService;
@@ -11,5 +12,6 @@ export interface UpdateCampaignOperationContract {
 
 export interface UpdateCampaignServiceContract {
     campaignsRepository: CampaignsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }

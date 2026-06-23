@@ -96,9 +96,10 @@ export default class CharactersController {
 
     public async addEquipment(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { userId } = req.user as Express.User;
         const { equipmentId } = req.query as { equipmentId: string };
 
-        const result = await this.addEquipmentOperation.execute({ characterId: id, equipmentId });
+        const result = await this.addEquipmentOperation.execute({ characterId: id, equipmentId, userId });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

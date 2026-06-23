@@ -15,11 +15,13 @@ describe('Core :: Characters :: Operations :: AddEquipmentOperation', () => {
         const result = await operation.execute({
             characterId: 'character-1',
             equipmentId: 'equipment-1',
+            userId: 'user-1',
         });
 
         expect(addEquipmentService.add).to.have.been.calledWith({
             characterId: 'character-1',
             equipmentId: 'equipment-1',
+            userId: 'user-1',
         });
         expect(result).to.deep.equal({ characterId: 'character-1' });
     });

@@ -13,9 +13,9 @@ export default class AddEquipmentOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({ characterId, equipmentId }: ManageEquipmentPayload): Promise<CharactersDnd> {
+    async execute({ characterId, equipmentId, userId }: ManageEquipmentPayload): Promise<CharactersDnd> {
         const callName = `[${this.constructor.name}] - ${this.execute.name}`;
         this.logger('info', callName);
-        return this.addEquipmentService.add({ characterId, equipmentId });
+        return this.addEquipmentService.add({ characterId, equipmentId, userId });
     }
 }

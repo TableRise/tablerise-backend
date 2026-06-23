@@ -26,19 +26,6 @@ export default class UpdateCampaignOperation {
         const savedCampaign = await this.updateCampaignService.save(campaignUpdated);
 
         this.socketIO.syncActiveCampaign(savedCampaign);
-        this.socketIO.emitToCampaign(payload.campaignId, 'campaign:settings_updated', {
-            campaignId: payload.campaignId,
-            title: savedCampaign.title,
-            description: savedCampaign.description,
-            mainHistory: savedCampaign.mainHistory,
-            visibility: savedCampaign.infos.visibility,
-            ageRestriction: savedCampaign.ageRestriction,
-            nextMatchDate: savedCampaign.infos.nextMatchDate,
-            nextSessionResume: savedCampaign.matchData?.nextSessionResume ?? null,
-            playerAmountLimit: savedCampaign.infos.playerAmountLimit,
-            socialMedia: savedCampaign.infos.socialMedia,
-        });
-
         return savedCampaign;
     }
 }

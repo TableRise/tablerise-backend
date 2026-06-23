@@ -7,6 +7,7 @@ import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFa
 import UsersDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
+import DatabaseManagement from '@tablerise/database-management';
 
 describe('When a master confirms a player in a campaign', () => {
     let campaign: Campaign;
@@ -14,6 +15,7 @@ describe('When a master confirms a player in a campaign', () => {
     let acceptedUserDetails: UserDetail;
 
     const dungeonMasterId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
+    const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
     beforeEach(async () => {
         campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
@@ -56,6 +58,11 @@ describe('When a master confirms a player in a campaign', () => {
         await InjectNewUser(acceptedUser);
         await InjectNewUserDetails(acceptedUserDetails, acceptedUser.userId);
         await InjectNewCampaign(campaign);
+
+        const dungeonMasterDetails = await userDetailsModel.findOne({ userId: dungeonMasterId });
+        dungeonMasterDetails.xp = 0;
+        dungeonMasterDetails.level = 1;
+        await userDetailsModel.update({ userId: dungeonMasterId }, dungeonMasterDetails);
     });
 
     it('should increment campaignsJoinedAmount for the accepted player and award the badge at two joins', async () => {
@@ -68,8 +75,11 @@ describe('When a master confirms a player in a campaign', () => {
             .expect(HttpStatusCode.NO_CONTENT);
 
         const { body } = await requester().get(`/users/${acceptedUser.userId}`).expect(HttpStatusCode.OK);
+        const { body: dungeonMaster } = await requester().get(`/users/${dungeonMasterId}`).expect(HttpStatusCode.OK);
 
         expect(body.details.gameInfo.campaignsJoinedAmount).to.equal(2);
         expect(body.details.gameInfo.badges).to.include('enthusiast');
+        expect(body.details.xp).to.equal(600);
+        expect(dungeonMaster.details.xp).to.equal(50);
     });
 });

@@ -42,6 +42,10 @@ describe('When the user is logged in', () => {
             expect(body.picture.link).to.be.equal(user.picture?.link);
             expect(body.picture.uploadDate).to.be.equal(user.picture?.uploadDate);
             expect(body.fullname).to.be.equal(`${userDetails.firstName} ${userDetails.lastName}`);
+
+            const { body: userAfterLogin } = await requester().get(`/users/${user.userId}`).expect(200);
+            expect(userAfterLogin.details.xp).to.equal(30);
+            expect(userAfterLogin.details.level).to.equal(1);
         });
     });
 });

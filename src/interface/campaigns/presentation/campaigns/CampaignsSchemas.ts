@@ -70,7 +70,8 @@ const postConfirmPlayerPresenceQuerySchema = z.object({
 });
 
 const configurationsBodySchema = z.object({
-    shopOn: z.boolean(),
+    shopOn: z.boolean().optional(),
+    playOn: z.boolean().optional(),
 });
 
 const putUpdateCampaignBodySchema = z.object({

@@ -47,6 +47,7 @@ describe('When a user details cover is uploaded', () => {
         expect(savedUserDetails.cover.id).to.be.a('string');
         expect(savedUserDetails.cover.link).to.be.a('string');
         expect(typeof savedUserDetails.cover.uploadDate).to.equal('string');
+        expect(savedUserDetails.xp).to.equal(100);
     });
 
     it('should reject uploads for another authenticated user id', async () => {

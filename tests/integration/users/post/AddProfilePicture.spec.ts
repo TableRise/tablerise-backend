@@ -7,6 +7,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import DatabaseManagement from '@tablerise/database-management';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
+import { DEFAULT_USER_PROFILE_PICTURE_LINK } from 'src/domains/users/helpers/UserProgression';
 
 describe('When a profile picture is uploaded', () => {
     let user: User, filePath: any;
@@ -25,7 +26,14 @@ describe('When a profile picture is uploaded', () => {
             code: '',
         };
 
-        user.picture = {} as User['picture'];
+        user.picture = {
+            id: '',
+            link: DEFAULT_USER_PROFILE_PICTURE_LINK,
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        } as User['picture'];
 
         filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
 
@@ -50,6 +58,9 @@ describe('When a profile picture is uploaded', () => {
             expect(body.picture.id).to.be.equal('stub-image-id');
             expect(body.picture.link).to.be.equal('https://img.bb/stub-image');
             expect(typeof body.picture.uploadDate).to.be.equal('string');
+
+            const savedUserDetails = await userDetailsModel.findOne({ userId: user.userId });
+            expect(savedUserDetails.xp).to.equal(100);
         });
     });
 });

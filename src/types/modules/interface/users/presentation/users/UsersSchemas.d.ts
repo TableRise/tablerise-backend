@@ -17,5 +17,6 @@ export interface IUsersSchemas {
     patchUpdateUserCover: ISchemaProps;
     patchUpdatePassword: ISchemaProps;
     patchUpdateCampaignNotes: ISchemaProps;
+    patchUpdateUserXp: ISchemaProps;
     patchAcceptFriend: ISchemaProps;
 }

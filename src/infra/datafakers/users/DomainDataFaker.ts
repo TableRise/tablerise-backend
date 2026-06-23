@@ -36,7 +36,7 @@ function generateGoogleProfileJSON({ count, id }: GoogleJSONPayload = { count: 1
 }
 
 const [{ email, password, nickname }] = generateUsersJSON();
-const [{ firstName, lastName, birthday, biography }] = generateUserDetailsJSON();
+const [{ firstName, lastName, birthday, gender, biography, title }] = generateUserDetailsJSON() as any;
 
 const mocks = {
     loginMock: { email, password },
@@ -44,6 +44,7 @@ const mocks = {
         email,
         password,
         nickname,
+        gender,
     },
     updateGameInfo: {
         infoId: '123',
@@ -56,6 +57,7 @@ const mocks = {
         firstName,
         lastName,
         birthday,
+        gender,
     },
     updateUserMock: {
         nickname,
@@ -64,7 +66,9 @@ const mocks = {
         firstName,
         lastName,
         birthday,
+        gender,
         biography,
+        title,
     },
     updateEmailMock: { email },
     updatePasswordMock: { password: '@TheWorld456' },

@@ -6,6 +6,7 @@ import { awardDonationBadges } from 'src/domains/users/helpers/BadgeAwardHandler
 import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 import { RegisterDonationPayload } from 'src/types/api/users/http/payload';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { finalizeProgression, snapshotProgression } from 'src/domains/users/helpers/UserProgression';
 
 const DONATION_VALIDATION_TARGET = 'rwd.tablesrise.ttrpg@gmail.com';
 
@@ -80,11 +81,13 @@ export default class RegisterDonationService {
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         ensureGameInfoCounters(userDetails);
+        const progressionSnapshot = snapshotProgression(userDetails);
 
         const gameInfo = userDetails.gameInfo as UserDetail['gameInfo'] & { donateAmount: number };
         gameInfo.donateAmount += payload.value;
 
         awardDonationBadges(userDetails);
+        finalizeProgression(userDetails, progressionSnapshot);
 
         await this.usersDetailsRepository.update({
             query: { userId },

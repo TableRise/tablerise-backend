@@ -22,6 +22,7 @@ import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './user
 import { UpdateEmailOperationContract, UpdateEmailServiceContract } from './users/UpdateEmail';
 import { UpdateUserCoverOperationContract, UpdateUserCoverServiceContract } from './users/UpdateUserCover';
 import { UpdateUserDetailsOperationContract, UpdateUserDetailsServiceContract } from './users/UpdateUserDetails';
+import { UpdateUserXpOperationContract, UpdateUserXpServiceContract } from './users/UpdateUserXp';
 import { UpdatePasswordOperationContract, UpdatePasswordServiceContract } from './users/UpdatePassword';
 import { UpdateUserOperationContract, UpdateUserServiceContract } from './users/UpdateUser';
 import {
@@ -50,6 +51,7 @@ export default interface UserCoreDependencies {
     updateEmailOperationContract: UpdateEmailOperationContract;
     updateUserCoverOperationContract: UpdateUserCoverOperationContract;
     updateUserDetailsOperationContract: UpdateUserDetailsOperationContract;
+    updateUserXpOperationContract: UpdateUserXpOperationContract;
     updatePasswordOperationContract: UpdatePasswordOperationContract;
     updateUserOperationContract: UpdateUserOperationContract;
     verifyEmailOperationContract: VerifyEmailOperationContract;
@@ -76,6 +78,7 @@ export default interface UserCoreDependencies {
     updateEmailServiceContract: UpdateEmailServiceContract;
     updateUserCoverServiceContract: UpdateUserCoverServiceContract;
     updateUserDetailsServiceContract: UpdateUserDetailsServiceContract;
+    updateUserXpServiceContract: UpdateUserXpServiceContract;
     updatePasswordServiceContract: UpdatePasswordServiceContract;
     updateUserServiceContract: UpdateUserServiceContract;
     verifyEmailServiceContract: VerifyEmailServiceContract;

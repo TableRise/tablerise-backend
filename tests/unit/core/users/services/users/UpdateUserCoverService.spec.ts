@@ -10,6 +10,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
 
     it('should upload and persist the new cover image', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        userDetails.cover = null as any;
         const uploaded = {
             id: 'stub-image-id',
             link: 'https://img.bb/stub-image',
@@ -42,6 +43,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
             payload: userDetails,
         });
         expect(userDetails.cover).to.deep.equal(uploaded);
+        expect(userDetails.xp).to.equal(100);
     });
 
     it('should throw when the user details do not exist', async () => {
@@ -75,6 +77,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
 
     it('should use the provided imageObject without calling image storage', async () => {
         const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        userDetails.cover = null as any;
         const uploaded = {
             id: 'stub-image-id',
             link: 'https://img.bb/stub-image',
@@ -103,6 +106,45 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.cover).to.deep.equal(uploaded);
         expect(userDetails.gallery).to.deep.equal([]);
+        expect(userDetails.xp).to.equal(100);
+    });
+
+    it('should not award first-cover xp when the user already had a cover', async () => {
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        userDetails.cover = {
+            id: 'existing-cover',
+            link: 'https://img.bb/existing-cover',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            title: '',
+            request: { success: true, status: 200 },
+        } as any;
+        const uploaded = {
+            id: 'stub-image-id',
+            link: 'https://img.bb/stub-image',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            title: '',
+            request: { success: true, status: 200 },
+        };
+
+        const service = new UpdateUserCoverService({
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(),
+            },
+            imageStorageClient: {
+                upload: sinon.stub().resolves(uploaded),
+            },
+            logger,
+        } as any);
+
+        await service.update({
+            userId: userDetails.userId,
+            image: { originalname: 'cover.png' } as FileObject,
+        });
+
+        expect(userDetails.xp).to.equal(0);
     });
 
     it('should reject cover updates without an image file or imageObject', async () => {

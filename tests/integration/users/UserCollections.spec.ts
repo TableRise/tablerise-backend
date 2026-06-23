@@ -25,6 +25,8 @@ describe('Users collections routes', () => {
         ownerDetails.messages = [];
         ownerDetails.gallery = [];
         ownerDetails.friends = [];
+        ownerDetails.xp = 0;
+        ownerDetails.level = 1;
 
         await userDetailsModel.update({ userDetailId: ownerDetailId }, ownerDetails);
     }
@@ -171,6 +173,8 @@ describe('Users collections routes', () => {
         expect(storedTargetDetails.gameInfo.playersAdded).to.equal(5);
         expect(storedOwnerDetails.gameInfo.badges).to.include('friends');
         expect(storedTargetDetails.gameInfo.badges).to.include('friends');
+        expect(storedOwnerDetails.xp).to.equal(500);
+        expect(storedTargetDetails.xp).to.equal(500);
     });
 
     it('should populate and delete gallery items after a profile picture upload', async () => {

@@ -32,6 +32,7 @@ describe('When an user has the account completed', function () {
             userDetails.birthday = null as unknown as string;
             userDetails.firstName = null as unknown as string;
             userDetails.lastName = null as unknown as string;
+            (userDetails as any).gender = null;
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
@@ -43,6 +44,7 @@ describe('When an user has the account completed', function () {
                 firstName: 'Jhon',
                 lastName: 'Doe',
                 birthday: '1998-12-25',
+                gender: 'male',
             };
 
             const { body } = await requester()
@@ -54,6 +56,7 @@ describe('When an user has the account completed', function () {
             expect(body.details.firstName).to.be.equal(payloadToComplete.firstName);
             expect(body.details.lastName).to.be.equal(payloadToComplete.lastName);
             expect(body.details.birthday).to.be.equal(payloadToComplete.birthday);
+            expect(body.details.gender).to.be.equal(payloadToComplete.gender);
             expect(body.details.gameInfo.badges).to.deep.equal([]);
         });
     });

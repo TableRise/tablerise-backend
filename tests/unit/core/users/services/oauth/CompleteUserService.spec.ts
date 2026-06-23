@@ -24,13 +24,14 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 const { nickname, ...userWithoutNickname } = user;
-                const { firstName, lastName, birthday, ...detailsEmpty } = userDetails;
+                const { firstName, lastName, birthday, gender, ...detailsEmpty } = userDetails as any;
 
                 payloadToCompleteUser = {
                     nickname,
                     firstName,
                     lastName,
                     birthday,
+                    gender,
                 };
 
                 user = userWithoutNickname as User;
@@ -59,6 +60,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 expect(userProcessed.userDetails.firstName).to.be.equal(payloadToCompleteUser.firstName);
                 expect(userProcessed.userDetails.lastName).to.be.equal(payloadToCompleteUser.lastName);
                 expect(userProcessed.userDetails.birthday).to.be.equal(payloadToCompleteUser.birthday);
+                expect(userProcessed.userDetails).to.have.property('gender').that.equals(payloadToCompleteUser.gender);
                 expect(userProcessed.userDetails.gameInfo.badges ?? []).to.deep.equal([]);
             });
         });
@@ -69,13 +71,14 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 const { nickname } = user;
-                const { firstName, lastName, birthday, ...detailsEmpty } = userDetails;
+                const { firstName, lastName, birthday, gender, ...detailsEmpty } = userDetails as any;
 
                 payloadToCompleteUser = {
                     nickname,
                     firstName,
                     lastName,
                     birthday,
+                    gender,
                 };
 
                 userDetails = detailsEmpty as UserDetail;

@@ -22,11 +22,18 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                     title: 'New title',
                     description: 'New description text',
                     mainHistory: 'A rewritten campaign history',
+                    configurations: {
+                        playOn: true,
+                    },
                 };
 
                 campaignUpdated = {
                     ...campaign,
                     ...campaignUpdatePayload,
+                    configurations: {
+                        ...campaign.configurations,
+                        playOn: true,
+                    },
                 };
 
                 updateCampaignService = {
@@ -46,11 +53,8 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 expect(campaignUpdateTest).to.be.deep.equal(campaignUpdated);
                 expect(updateCampaignService.update).to.have.been.calledWith(campaignUpdatePayload);
                 expect(updateCampaignService.save).to.have.been.calledWith(campaignUpdated);
-                expect(socketIO.emitToCampaign).to.have.been.calledWith(
-                    campaign.campaignId,
-                    'campaign:settings_updated',
-                    sinon.match.has('mainHistory', campaignUpdated.mainHistory)
-                );
+                expect(socketIO.syncActiveCampaign).to.have.been.calledWith(campaignUpdated);
+                expect(socketIO.emitToCampaign).not.to.have.been.called;
             });
         });
 
@@ -92,7 +96,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
             });
         });
 
-        it('should emit a null nextSessionResume when the saved campaign has no match data', async () => {
+        it('should sync the active campaign when the saved campaign has no match data', async () => {
             campaign = DomainDataFaker.generateCampaignsJSON()[0];
             campaign.matchData = null as any;
 
@@ -113,14 +117,11 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 campaignId: campaign.campaignId,
             } as any);
 
-            expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(
-                campaign.campaignId,
-                'campaign:settings_updated',
-                sinon.match.has('nextSessionResume', null)
-            );
+            expect(isolatedSocketIO.syncActiveCampaign).to.have.been.calledWith(campaign);
+            expect(isolatedSocketIO.emitToCampaign).not.to.have.been.called;
         });
 
-        it('should emit the saved nextSessionResume when it exists', async () => {
+        it('should sync the active campaign when nextSessionResume exists', async () => {
             campaign = DomainDataFaker.generateCampaignsJSON()[0];
             campaign.matchData.nextSessionResume = 'Session recap' as any;
 
@@ -141,11 +142,8 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 campaignId: campaign.campaignId,
             } as any);
 
-            expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(
-                campaign.campaignId,
-                'campaign:settings_updated',
-                sinon.match.has('nextSessionResume', 'Session recap')
-            );
+            expect(isolatedSocketIO.syncActiveCampaign).to.have.been.calledWith(campaign);
+            expect(isolatedSocketIO.emitToCampaign).not.to.have.been.called;
         });
     });
 });

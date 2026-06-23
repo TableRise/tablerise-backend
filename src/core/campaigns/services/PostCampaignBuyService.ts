@@ -4,6 +4,7 @@ import { PostCampaignBuyPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
 import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { finalizeProgression, snapshotProgression } from 'src/domains/users/helpers/UserProgression';
 
 export default class PostCampaignBuyService {
     private readonly campaignsRepository;
@@ -37,8 +38,10 @@ export default class PostCampaignBuyService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
+        const progressionSnapshot = snapshotProgression(userDetails);
         incrementGameInfoCounter(userDetails, 'equipBoughtAmount');
         awardCampaignBadges(userDetails);
+        finalizeProgression(userDetails, progressionSnapshot);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },

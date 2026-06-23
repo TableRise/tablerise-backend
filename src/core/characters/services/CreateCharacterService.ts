@@ -4,6 +4,12 @@ import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import {
+    addXp,
+    finalizeProgression,
+    snapshotProgression,
+    USER_XP_EVENTS,
+} from 'src/domains/users/helpers/UserProgression';
 
 export default class CreateCharacterService {
     private readonly charactersRepository;
@@ -32,6 +38,15 @@ export default class CreateCharacterService {
         const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
         this.logger('info', callName);
         const characterSerialized = this.serializer.postCharacter(payload.payload);
+        if (characterSerialized.data?.profile) {
+            const notificationsOn =
+                characterSerialized.data.profile.notificationsOn ??
+                characterSerialized.data.profile.notificationOn ??
+                false;
+
+            characterSerialized.data.profile.notificationOn = notificationsOn;
+            characterSerialized.data.profile.notificationsOn = notificationsOn;
+        }
 
         return characterSerialized as CharactersDnd;
     }
@@ -84,6 +99,9 @@ export default class CreateCharacterService {
         if (!userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
 
         userDetailsInDb.gameInfo.characters.push(characterId);
+        const progressionSnapshot = snapshotProgression(userDetailsInDb);
+        addXp(userDetailsInDb, USER_XP_EVENTS.CHARACTER_CREATION);
+        finalizeProgression(userDetailsInDb, progressionSnapshot);
 
         await this.usersDetailsRepository.update({
             query: { userId: character.author.userId },

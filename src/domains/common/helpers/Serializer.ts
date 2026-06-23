@@ -7,6 +7,7 @@ import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaig
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
+import { DEFAULT_USER_TITLE } from 'src/domains/users/helpers/UserProgression';
 
 export default class Serializer {
     private isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -71,6 +72,7 @@ export default class Serializer {
         firstName = null,
         lastName = null,
         birthday = null,
+        gender = null,
         gameInfo = {
             campaigns: [],
             characters: [],
@@ -82,9 +84,14 @@ export default class Serializer {
             equipBoughtAmount: 0,
             donateAmount: 0,
             playersAdded: 0,
+            userRegistered: 0,
+            userLevelAmount: 0,
         },
         biography = null,
+        title = DEFAULT_USER_TITLE,
         rank = null,
+        xp = 0,
+        level = 1,
         role = 'user',
         cover = null,
         messages = [],
@@ -102,9 +109,13 @@ export default class Serializer {
             firstName,
             lastName,
             birthday,
+            gender,
             gameInfo,
             biography,
+            title,
             rank,
+            xp,
+            level,
             cover,
             messages,
             gallery,

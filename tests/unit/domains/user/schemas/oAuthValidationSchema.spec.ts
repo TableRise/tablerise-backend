@@ -15,6 +15,7 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
                 firstName: 'Jhon',
                 lastName: 'Doe',
                 birthday: '2000-10-10',
+                gender: 'male',
             };
         });
 

@@ -40,6 +40,8 @@ describe('Core :: Users :: Services :: UpdateUserDetailsService', () => {
 
                 expect(userUpdateResponse.firstName).to.be.equal(userDetailsToUpdate.firstName);
                 expect(userUpdateResponse.biography).to.be.equal(userDetailsToUpdate.biography);
+                expect(userUpdateResponse).to.have.property('gender').that.equals(userDetailsToUpdate.gender);
+                expect(userUpdateResponse.title).to.be.equal(userDetailsToUpdate.title);
             });
         });
 
@@ -72,6 +74,39 @@ describe('Core :: Users :: Services :: UpdateUserDetailsService', () => {
                     expect(err.message).to.be.equal(
                         'Update User Details Info - forbidden field: userId exists in payload'
                     );
+                    expect(err.name).to.be.equal('ForbiddenRequest');
+                    expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
+                }
+            });
+        });
+
+        context('When validateUpdateData fail with xp and level', () => {
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                usersDetailsRepository = {
+                    findOne: () => userDetails,
+                    update: () => userDetails,
+                };
+
+                updateUserDetailsService = new UpdateUserDetailsService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw an error for xp', async () => {
+                try {
+                    await updateUserDetailsService.update({
+                        userId: userDetails.userId,
+                        payload: {
+                            xp: 100,
+                        },
+                    } as any);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Update User Details Info - forbidden field: xp exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
